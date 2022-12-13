@@ -1,0 +1,168 @@
+
+.btndelete{
+    width:auto;
+    background: none;
+    color: red;
+    border: 0px;
+    padding: 5px;
+}
+.btnedit{
+    width:auto;
+    background: none;
+    color: blue;
+    border: 0px;
+    padding: 5px;
+}
+.btnecambiarestado{
+    width:auto;
+    background: none;
+    color: #F59E0B;
+    border: 0px;
+    padding: 5px;
+}
+.BodyTh{
+    min-width: 18rem;
+
+}
+.height{
+    height: 10px;
+}
+
+/* .BodyThs{
+    min-width: 8rem;
+    height: 90px;
+    justify-content: right;
+}
+.HeaderThs{
+    min-width:8rem;    
+    height:58px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.BodyThr{
+    min-width: 17rem;
+    height: 90px;
+    font-size: 13px;
+    padding: 0;
+    margin: 0;
+}
+.HeaderThr{
+    min-width: 17rem;    
+    height:58px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.BodyThc{
+    min-width: 12rem;
+    height: 90px;
+    justify-content: right;
+}
+.HeaderThc{
+    min-width: 9.5rem;9.5   
+    height:58px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.BodyThsm{
+    min-width: 8rem;
+    height: 90px;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; 
+}
+.BodyTh td{
+    font-size: 5px;
+}
+
+.HeaderTh{
+    min-width: 18rem;    
+    height:58px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+}
+ */
+
+.acciones{
+    min-width:2rem;
+    padding: 0px;
+    margin:0px
+}
+
+.tdnumeros{
+    min-width: 8rem;  
+    
+}
+.categoria{
+    min-width: 12rem;
+}
+.marca{
+    min-width: 8rem;
+}
+.images{
+    min-width: 10rem;
+}
+.imgtableimg{
+    width: 163px;
+    height: 71px;
+    padding:0;
+    margin:0;
+    border-radius: 10px;
+}
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: left;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+    padding: 0.5rem 0.5rem !important; 
+}
+
+.center{
+    justify-content:center;
+}
+
+.outofstock {
+    font-weight: 700;
+    color: #FF5252;
+    text-decoration: line-through;
+    font-size: 40px;
+ 
+}
+
+.lowstock {
+    font-weight: 700;
+    color: #FFA726;
+    font-size: 40px;
+}
+
+.instock {
+    font-weight: 700;
+    color: #66BB6A;
+    font-size: 40px;
+}
+.imgmodal{
+    
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+.imgmodal1{
+    width: 120px;
+    height: 120px;
+    margin: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.right{
+    justify-content: right;
+}
+.left{
+    justify-content: left;
+}

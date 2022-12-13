@@ -1,0 +1,116 @@
+<div class="col-12">
+  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+
+  <p-panel header="Busqueda de Detalle-Venta" [collapsed]="true" [toggleable]="true" class="line-height-3 m-0"> 
+      <form  >
+          <div class="p-fluid p-formgrid grid">
+
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>
+
+              
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>
+
+
+              
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>             
+          </div>
+      </form>
+  </p-panel>
+</div>
+
+<br>
+<div class="col-12">
+  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+
+  <p-panel header="Tabla de Detalle-Venta" 
+   [toggleable]="true" class="line-height-3 m-0"> 
+
+<h1 class="h"><b>Cliente: </b></h1><h2 class="h">{{cliente}}</h2>
+      <p-table [rows]="5" 
+
+      [value]="order_has"
+      [loading]="loading"
+       [rowHover]="true"
+      styleClass="p-datatable-gridlines" 
+      [scrollable]="true" 
+      responsiveLayout="scroll">
+
+
+      <ng-template pTemplate="header">
+        <tr>       
+          <th class="HeaderTh">
+            Nombre  Producto
+          </th>  
+          <th class="HeaderThs" >
+            Imagen Producto 
+          </th>           
+          <th class="HeaderTh">
+            Cantidad 
+          </th>     
+          <th class="HeaderTh">
+            Precio Unitario 
+          </th>
+          <th class="HeaderTh">
+            Total Producto 
+          </th>     
+                          
+         
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td class="BodyTh">
+            {{  data.nombre_producto  }}
+          </td>      
+          <td class="BodyThsm">          
+            <img class="imgtableimg" alt="imgProducto" src="{{  data.imagen  }}"/> 
+          </td>
+       
+
+          <td class="BodyTh">
+            {{  data.cantidad  }}
+          </td>   
+          <td class="BodyTh">
+            S/. {{  data.preciounitario  }}
+          </td>        
+          <td class="BodyTh">
+           S/. {{  data.totalproducto  }}
+          </td> 
+           
+        
+        
+        </tr>
+        
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">No se encontro Información.</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="7">
+            Cargando Información de Detalle-Venta. Espere Por Favor.
+          </td>
+        </tr>
+      </ng-template>
+      </p-table>
+
+
+  </p-panel>
+</div>

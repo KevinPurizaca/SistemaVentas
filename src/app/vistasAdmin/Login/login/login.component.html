@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>DOCUMENT</title>
+</head>
+
+<body>
+    <p-toast key="tst" [baseZIndex]="99999"></p-toast>
+
+    <div class="contenedor">
+        <form [formGroup]="loginForm" >
+            <h2>LOGIN</h2>
+
+    <div class="usuario">
+        <span class="span p-input-icon-left">
+            <i class="pi pi-user"></i>
+            <input type="text" pInputText 
+            [pattern]="emailPattern"   
+            [(ngModel)]="correo"
+            aria-describedby="email" 
+            formControlName="correo"
+            placeholder="Ingrese Correo">         
+
+        </span>
+
+    </div>
+    <small id="email" class="p-error small block" *ngIf="loginForm.get('email_users')?.hasError('pattern')" >Ingrese un Correo Valido</small>
+
+    <small id="email" class="p-error small block"  >{{errorMessage}}</small>
+
+      <div class="usuario">
+        <span class="p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <input type="text" pInputText 
+                     
+            name="contrasenia" formControlName="contrasenia"
+            placeholder="Ingrese Contraseña">         
+        </span>       
+ 
+    </div>  
+
+    <div class="btn">
+        <p-button label="Iniciar Sesion" (onClick)="onLogin(loginForm.value)" styleClass="p-button-lg" ></p-button>
+    </div>
+
+    </form>
+
+    </div>
+</body>
+</html>
+
+     
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

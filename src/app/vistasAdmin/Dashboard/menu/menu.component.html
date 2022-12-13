@@ -1,0 +1,148 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed':''">
+    <div *ngIf="logo" class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">
+            <img alt="imgUsuario" onerror="this.src='/assets/imgno.jpg'"  class="logoimg" [src]="[imagen]"/>
+        </button>
+
+        <div class="logo-text " *ngIf="collapsed" >{{nombre}} {{apellido_p}}</div>      
+        <button class="btn-close fal fa-times close-icon" @rotate *ngIf="collapsed" (click)="closeSidenav()">
+           
+        </button>
+    </div>
+
+   
+    <ul class="sidenav-nav">
+        <li class="sidenav-nav-item" *ngFor="let data of navData">
+
+             <!-- ***********************VISTA USUARIO****************
+            <a [routerLink]="[data.routeLink]"
+             class="sidenav-nav-link"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+             >
+              <i class="sidenav-link-icon" [class]="data.icon"></i>
+          
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.label}}</span>
+            </a>
+-->
+
+            <!-- ***********************MANTENIMIENTO PRODUCTOS****************-->
+            <a [routerLink]="[data.routeLinkProductos]" class="sidenav-nav-link"
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconProductos"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelProductos}}</span>
+            </a>
+
+
+         <!-- ***********************MANTENIMIENTO CATEGORIAS ****************-->
+            <a [routerLink]="[data.routeLinkCategorie]" class="sidenav-nav-link"
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconCategorie"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelCategorie}}</span>
+            </a>
+
+
+            
+            <!-- ***********************MANTENIMIENTO PROVEEDOR ****************
+            <a [routerLink]="[data.routeLinkProveedor]" class="sidenav-nav-link" 
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconProveedor"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelProveedor}}</span>
+            </a>
+-->
+
+            <!-- ***********************MANTENIMIENTO USUARIOS ****************-->
+            
+            <a [routerLink]="[data.routeLinkUser]" class="sidenav-nav-link" 
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconUser"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelUser}}</span>
+            </a>
+
+
+
+            
+            <!-- ***********************MANTENIMIENTO VENTAS****************-->       
+            <a [routerLink]="[data.routeLinkVentas]" class="sidenav-nav-link" 
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconVentas"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelVentas}}</span>
+            </a>
+
+             <!-- ***********************MANTENIMIENTO PROVEEDORES****************-->       
+             <a [routerLink]="[data.routeLinkProveedor]" class="sidenav-nav-link" 
+             routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:true}"
+             >
+                 <i class="sidenav-link-icon" [class]="data.iconProveedor"></i>
+             <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelProveedor}}</span>
+             </a>
+
+
+              <!-- ***********************MANTENIMIENTO MARCA****************-->       
+            <a [routerLink]="[data.routeLinkMarca]" class="sidenav-nav-link" 
+            routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"
+            >
+                <i class="sidenav-link-icon" [class]="data.iconMarca"></i>
+            <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelMarca}}</span>
+            </a>
+
+             <!-- ***********************MANTENIMIENTO DETALLES PRODUCTOS****************-->       
+             <a [routerLink]="[data.routeLinkDetalleProducto]" class="sidenav-nav-link" 
+             routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:true}"
+             >
+                 <i class="sidenav-link-icon" [class]="data.iconDetalleProducto"></i>
+             <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelDetalleProducto}}</span>
+             </a>
+         
+               <!-- ***********************MANTENIMIENTO ESTADISTICAS****************      
+               <a [routerLink]="[data.routeLinkEstadisticas]" class="sidenav-nav-link" 
+               routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}"
+               >
+                   <i class="sidenav-link-icon" [class]="data.iconEstadisticas"></i>
+               <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelEstadisticas}}</span>
+               </a>               
+        </li>--> 
+        
+         
+        <li class="sidenav-nav-item" *ngFor="let data of navData">
+
+              <!-- *********************** CERRAR SESION 
+                (click)="logout()"
+                ****************-->       
+              <a  class="sidenav-nav-link" 
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:true}"   (click)="confirm1()"
+              >
+                  <i class="sidenav-link-icon" [class]="data.iconLogout"></i>
+              <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelLogout}}</span>
+              </a>
+        </li>
+        
+ 
+
+
+    </ul>
+   
+    
+
+</div>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+<p-toast key="tst"[baseZIndex]="99999" ></p-toast>

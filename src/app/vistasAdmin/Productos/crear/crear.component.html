@@ -1,0 +1,108 @@
+
+<div class="col-12">
+<div class="p-fluid p-formgrid grid">
+
+    <p-panel header="Busqueda de productos" 
+    class="col-12 md:col-12 line-height-3 m-0">
+
+    <form  >
+      <div class="p-fluid p-formgrid grid">
+       
+         <br>       
+         <div class="col-12 md:col-8">
+          <label class="label-filter-text">Nombre</label>
+          <input type="text" pInput placeholder="Nombre Producto" 
+          class="p-inputtext p-component p-element">
+        </div>
+
+        <div class="col-12 md:col-4" >
+          <label class="label-filter-text" >Categoria</label>
+          <p-dropdown placeholder="Seleccione" 
+          [options]="categorias"
+          optionLabel="nombre" optionValue="id">
+         
+          </p-dropdown>
+          
+      </div>
+
+
+      <div class="col-12 md:col-3" >
+        <label class="label-filter-text" >Marca</label>
+        <p-dropdown placeholder="Seleccione"      
+        [options]="marca" 
+        optionLabel="nombre" optionValue="id" >
+       
+        </p-dropdown>
+        
+    </div>
+    <div class="col-12 md:col-4">
+      <label class="label-filter-text">Proveedor</label>
+      <p-dropdown placeholder="Seleccione" [filter]="true"
+      [options]="proveedor" 
+      optionLabel="nombrecompletos" optionValue="id" >
+      </p-dropdown>
+  </div>
+
+  <div class="col-12 md:col-4">
+    <h5>Rango de Precios: {{val2}}</h5>
+    <input type="text"  pInputText [value]="val2" readonly/>
+    <p-slider (onChange)="leerinput($event,val2)"  > {{val2}}</p-slider>
+
+
+</div>
+
+
+
+
+
+
+
+        </div>
+        </form>
+    </p-panel>
+
+    <!-- <p-panel header="Vista Previa"
+     class="col-12 md:col-4 line-height-3 m-0">
+  
+    </p-panel> -->
+  </div>
+
+</div>
+
+<div>
+  <div class="col-12">
+
+
+    <p-tabView styleClass="tabview-custom" >
+      <p-tabPanel leftIcon="pi pi-info-circle" header="1. Ingresar Datos e Imagenes">
+        <ng-template pTemplate="content">    
+          <app-tab-datos></app-tab-datos>   
+        </ng-template>     
+    
+      </p-tabPanel>
+
+      <!-- <p-tabPanel >
+        <ng-template  pTemplate="header" >
+          <i style="margin-right: 10px;" class="pi pi-images"></i>
+          <span> Seleccionar Imagenes</span>
+        </ng-template>  
+        <app-tab-imagenes  ></app-tab-imagenes>
+      </p-tabPanel> -->
+
+      <p-tabPanel leftIcon="pi pi-info-circle" header="2. Ingresar Descripcion" >
+        <ng-template pTemplate="content">
+          <app-tab-descripcion></app-tab-descripcion>
+           </ng-template>          
+      </p-tabPanel>
+
+      <p-tabPanel leftIcon="pi pi-eye" header="3. Vista Previa" >
+        <ng-template pTemplate="content" >
+          <app-tab-vista-previa ></app-tab-vista-previa>
+        </ng-template>  
+      
+      </p-tabPanel>
+
+      </p-tabView>
+      </div>
+
+</div>

@@ -1,0 +1,95 @@
+<div class="col-12 ">
+
+  <div class="p-fluid p-formgrid grid" pRipple>
+    <div class="col-12 md:col-10"></div>
+    <div class="col-12 md:col-2">
+      <button pButton pRipple type="button"
+      label="Siguiente ➪" class="p-button-outlined p-button-help"
+      (click)="guardarDescripcion(descripcion)"></button>
+    </div>   
+</div>
+
+  <div class="p-fluid p-formgrid grid center">
+  
+      <p-panel header="Registro Informacion de Productos" 
+      class="col-12 md:col-10 line-height-3 m-0">
+  
+    
+
+      <form [formGroup]="formBusqueda" >
+        <div class="p-fluid p-formgrid grid">
+    
+
+    
+
+      
+           <div class="field col-12 md:col-12">
+            <br>  
+        
+            <label for="float-input">Ingrese Resumen</label>
+              <textarea inputId="float-input"  [(ngModel)]="descripcion.resumen" 
+              formControlName="txtResumen"  rows="3" cols="10"
+               pInputTextarea ></textarea>
+             
+     
+          </div>
+ 
+  
+          <div class="col-12 md:col-12" >
+            <label class="label-filter-text">Descripción 1:</label>
+            <input type="text" pInput formControlName="txtDesc1"[(ngModel)]="descripcion.desc_1" 
+            class="p-inputtext p-component p-element">
+            
+        </div>
+  
+  
+        <div class="col-12 md:col-12" >
+          <label class="label-filter-text">Descripción 2:</label>
+          <input type="text" pInput formControlName="txtDesc2" [(ngModel)]="descripcion.desc_2" 
+          class="p-inputtext p-component p-element">
+          
+      </div>
+      <div class="col-12 md:col-12">
+        <label class="label-filter-text">Descripción 3:</label>
+        <input type="text" pInput formControlName="txtDesc3" [(ngModel)]="descripcion.desc_3" 
+        class="p-inputtext p-component p-element">
+    </div>
+  
+    <div class="col-12  md:col-12">
+      <label class="label-filter-text">Descripción 4:</label>
+      <input type="text" pInput formControlName="txtDesc4" [(ngModel)]="descripcion.desc_4"
+      class="p-inputtext p-component p-element">
+    </div>
+  
+    <div class="col-12  md:col-12">
+      <label class="label-filter-text">Descripción 5:</label>
+      <input type="text" pInput  formControlName="txtDesc5" [(ngModel)]="descripcion.desc_5"
+      class="p-inputtext p-component p-element">
+    </div>
+    <div class="col-12 md:col-12">
+      <label class="label-filter-text">Descripción 6:</label>
+      <input type="text" pInput formControlName="txtDesc6" [(ngModel)]="descripcion.desc_6"
+      class="p-inputtext p-component p-element">
+  </div>
+
+  <div class="col-12  md:col-12">
+    <label class="label-filter-text">Descripción 7:</label>
+    <input type="text" pInput formControlName="txtDesc7" [(ngModel)]="descripcion.desc_7"
+    class="p-inputtext p-component p-element">
+  </div>
+
+  <div class="col-12  md:col-12">
+    <label class="label-filter-text">Descripción 8:</label>
+    <input type="text" pInput formControlName="txtDesc8" [(ngModel)]="descripcion.desc_8"
+    class="p-inputtext p-component p-element">
+  </div>
+  
+          </div>
+          </form>
+      </p-panel>
+  
+    </div>
+  
+  </div>
+  
+  

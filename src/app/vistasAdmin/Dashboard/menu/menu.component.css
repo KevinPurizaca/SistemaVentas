@@ -1,0 +1,141 @@
+/*/@import '~font-awesome/css/font-awesome.css';
+*/
+.sidenav{
+    background: #263238;
+    transition: all .5s ease;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+    box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  
+}
+
+.logo-container{
+    
+display: flex;
+align-items:center;
+padding:  0.938rem 0.938rem 0 0.938rem;
+width: 100%;    
+
+}
+.logo{
+       background: #fff;     
+       text-align: center;
+       width: 3rem;
+       min-width: 3rem;
+       border-radius: 0.313rem;       
+       font-size: 24px;
+       font-weight: 900;
+       cursor: pointer;
+       border: none;
+}
+.logoimg{
+       background: #fff;
+       text-align: center;
+       font-size: 5px;
+       width: 50px;
+       height: 50px;
+       min-width: 50px;
+       border-radius: 0.313rem;       
+       font-size: 24px;
+       font-weight: 900;
+       cursor: pointer;
+       border: none;
+      
+}
+
+.logo-text{
+    margin-left: 1.5rem;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+}
+.logo-texta{
+    margin-left: 1.5rem;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+.btn-close{
+    margin-left: 10px;
+    font-size: 30px;
+    background: white;
+    
+    color: white;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+}
+
+.fa-times{
+    color: #fff;  
+   
+}
+
+.sidenav-collapsed{
+    width: 16.5625rem;
+}
+.sidenav-nav{
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
+}
+
+.sidenav-nav-item{
+    width: 100%;
+    margin-bottom: 0.625rem;
+
+  
+}  
+.sidenav-nav-link{ 
+    width: 100%;
+    margin-bottom: 0.625rem;  
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: #f3f3f3;
+    border-radius: 0.625rem;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+.sidenav-link-icon{
+    font-size: 22px;
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 0.5rem ;
+    text-align: center;
+}
+
+.sidenav-link-text{
+   margin-left: 1.5rem; 
+}
+
+.sidenav-nav-link:hover{
+    background-color: #fff;
+    color: #000;
+}
+
+.active{
+    background: #fff;
+    
+}
+
+.active .sidenav-link-icon{
+        color:#000
+}
+
+.active .sidenav-link-text{
+    color:#000
+}

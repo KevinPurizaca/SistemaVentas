@@ -1,0 +1,69 @@
+:host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
+    background: #f8f9fa;
+    padding: 1.25rem;
+    border: 1px solid #dee2e6;
+    color: #343a40;
+    width: 800px!important;
+    padding: 1rem 1rem!important;  
+    margin: 0!important;
+    border-bottom: 0 none;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+
+:host ::ng-deep  .p-fileupload .p-fileupload-content {
+    background: #ffffff;
+    width: 800px!important;
+   
+    padding: 0rem 0rem!important;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+
+:host ::ng-deep  .p-fileupload .p-fileupload-content .p-fileupload-row  {
+    background: #ffffff;
+    width: 750px!important;
+    height: 150px!important;
+    padding: 0rem 0rem!important;  
+    margin: 0!important;
+   
+}
+
+:host ::ng-deep img, svg {
+    vertical-align: middle;
+    height: 100px!important;
+    margin: 0!important;
+    margin-left: 50px!important;
+    display: flex!important;
+    align-items: center!important;
+    justify-content: center!important;
+}
+
+:host ::ng-deep .pi {
+    font-family: 'primeicons';
+    font-style: normal;
+    font-weight: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    height: 15px;
+    width: 45px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::ng-deep .p-fileupload-row>div {
+    flex: 2 1 auto;
+   
+}
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

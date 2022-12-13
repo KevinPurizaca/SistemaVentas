@@ -1,0 +1,110 @@
+<div class="col-12  ">
+  
+   
+  <div class="p-fluid p-formgrid grid" pRipple>
+    <div class="col-12 md:col-10"></div>
+    <div class="col-12 md:col-2">
+      <button pButton pRipple type="button"
+      label="Siguiente ➪" class="p-button-outlined p-button-help"
+      (click)="guardarProductos(producto)"></button>
+
+    </div>
+
+
+</div>
+  <div class="p-fluid p-formgrid grid ">
+
+
+      <p-panel header="Ingrese Informacion de Productos" 
+      class="col-12 md:col-6 line-height-3 m-0">
+      <ng-template pTemplate="body" let-data>
+
+
+
+        <form  [formGroup]="formBusqueda" >
+          <div class="p-fluid p-formgrid grid">
+           
+             <br>       
+             <div class="col-12 md:col-12">
+              <label class="label-filter-text">Nombre</label>
+              <input type="text" pInput placeholder="Nombre Producto" 
+              class="p-inputtext p-component p-element" 
+              [(ngModel)]="producto.nombre" formControlName="txtNombre">
+            </div>
+    
+            <div class="col-12 md:col-12" >
+              <label class="label-filter-text" >Categoria</label>
+              <p-dropdown placeholder="Seleccione" [(ngModel)]="producto.id_categoria"  [filter]="true"
+              [options]="categorias" formControlName="cboCategoria"
+              optionLabel="nombre"  optionValue="id" >
+             
+              </p-dropdown>
+              
+          </div>
+    
+    
+          <div class="col-12 md:col-12" >
+            <label class="label-filter-text" >Marca</label>
+            <p-dropdown placeholder="Seleccione"      [filter]="true"
+            [options]="marca" formControlName="cboMarca" [(ngModel)]="producto.id_marca"
+            optionLabel="nombre" optionValue="id" >         
+            </p-dropdown>
+  
+        </div>
+        <div class="col-12 md:col-12">
+          <label class="label-filter-text">Proveedor</label>
+              <p-dropdown placeholder="Seleccione" [filter]="true"
+              formControlName="cboProveedor" [options]="proveedor" [(ngModel)]="producto.id_proveedor"
+              optionLabel="nombrecompletos" optionValue="id" >
+              </p-dropdown>
+      </div>
+    
+      <div class="col-12  md:col-6">
+        <label class="label-filter-text">Precio</label>
+        <input type="text" pInput placeholder="Ingrese Precio" 
+         formControlName="txtPrecio"  [(ngModel)]="producto.precio"
+        class="p-inputtext p-component p-element">
+      </div>
+    
+      <div class="col-12  md:col-6">
+        <label class="label-filter-text">Stock</label>
+        <input type="text" pInput placeholder="Ingrese Stock"  
+        [(ngModel)]="producto.stock" formControlName="txtStock"
+        class="p-inputtext p-component p-element">
+      </div>
+    
+    
+            </div>
+            </form>
+
+      </ng-template>      
+      </p-panel>
+  
+    
+
+<p-panel header="Seleccione Imagenes" 
+class="col-12 md:col-6 line-height-3 m-0">
+
+
+    <p-fileUpload name="file"  [maxFileSize]="1000000"
+      [multiple]="true" [url]="subir"  accept="{{acceptedFiles}}" [fileLimit]="3"
+      [headers]="httpHeaders" [previewWidth]="100"  (onSelect)="leerimagenes($event)"
+      invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}"  [customUpload]="true" [showUploadButton]="false" 
+      chooseLabel="Seleccionar Imagen" cancelLabel="Cancelar" uploadLabel="Subir" chooseIcon="pi pi-file" [showCancelButton]="false"
+   > 
+
+  
+  </p-fileUpload>
+  
+  
+  
+</p-panel>
+    </div>
+
+
+  </div>
+  
+  
+
+
+  

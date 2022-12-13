@@ -1,0 +1,17 @@
+<div class="col-12 md:col-12 center">
+  <p-fileUpload name="file"  [maxFileSize]="1000000"
+    [multiple]="true" [url]="subir"  accept="{{acceptedFiles}}" [fileLimit]="3"
+    [headers]="httpHeaders" [previewWidth]="100"  
+    invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}"  [customUpload]="true" [showUploadButton]="false" 
+    chooseLabel="Seleccionar Imagen" cancelLabel="Cancelar" uploadLabel="Subir" chooseIcon="pi pi-file" [showCancelButton]="false"
+ > 
+<ng-template pTemplate="content">  
+  <ul class="ul" *ngIf="uploadedFiles.length">
+    <li  class="ul" *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+  </ul>
+</ng-template>
+
+</p-fileUpload>
+
+
+</div>

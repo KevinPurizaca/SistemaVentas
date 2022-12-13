@@ -1,0 +1,92 @@
+
+.btndelete{
+    width:auto;
+    background: none;
+    color: blue;
+    border: 0px;
+    padding: 5px;
+}
+
+
+.btnedit{
+    width:auto;
+    background: none;
+    color: blue;
+    border: 0px;
+    padding: 5px;
+}
+.BodyTh{
+    min-width: 12rem;
+    height: 90px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tdacciones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.BodyThImg{
+    min-width: 12rem;
+    height: 90px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+}
+.BodyTh td{
+    font-size:25px;
+
+}
+
+
+.HeaderTh{
+    min-width: 12rem;    
+    height:58px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+}
+
+
+.tdnumeros{
+    min-width: 12.5rem; 
+    justify-content: right;
+    
+}
+
+.span{
+    margin-top:40px;
+}
+.vs{  
+    margin-top: 60px;
+    margin-left: 10px;
+    font-size: 20px;    
+}
+.switch{
+    margin-top: 63px;
+}
+
+.h5{
+    color: white;
+}
+.comp{
+    margin-bottom: 18px;
+}
+
+.imgtabletd{
+ width: 100%;
+ height:100%;
+ 
+}
+
+.imgtableimg{
+    
+    width: 163px;
+    height: 85px;
+    border-radius: 10px;
+}
+
+

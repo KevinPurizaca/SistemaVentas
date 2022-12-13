@@ -1,0 +1,83 @@
+<p-toast key="tst"[baseZIndex]="99999" [showTransitionOptions]="'1ms'"></p-toast>
+
+  <div class="col-12 ">
+    <div class="p-fluid p-formgrid grid ">
+    
+        <p-panel header="Vista Previa de Producto a  Registrar" 
+        class="col-12 md:col-12 line-height-3 m-0">
+      
+
+
+            <!-- <h1 class="nombre" ><b>{{item}}</b></h1>    -->
+
+<div class="p-fluid p-formgrid grid ">
+        <br>
+        <section class="col-12 md:col-7  mt-4 "  *ngFor="let productos of producto" >
+            <div class="col-12 md:col-12 flex justify-content-center " >
+          
+      
+                 
+                  <p-image src="{{fotogde}}" [preview]="true" alt="Image" width="500" height="500"></p-image>
+              
+           </div>
+            <div class="col-12 md:col-12  flex justify-content-center">
+                
+                        <button  class="md:col-3 ml-4 border-round surface-border img" (click)="cambiarimagen(productos.img1)">
+                              <p-image alt="Image" width="120" height="120" src="{{productos.img1}}" ></p-image>
+                        </button>
+              
+               
+                  <button class="md:col-3 ml-4 border-round surface-border img" (click)="cambiarimagen(productos.img2)">
+                        <p-image  alt="Image" width="120" height="120" src="{{productos.img2}}" ></p-image>
+                  </button>
+                  <button  class="md:col-3 ml-4 border-round surface-border img" (click)="cambiarimagen(productos.img3)">
+                        <p-image  alt="Image" width="120" height="120" src="{{productos.img3}}" ></p-image>
+                  </button>
+           
+            </div>
+
+        </section>
+    
+<section class="col-12 md:col-5  mt-4">
+      <div *ngFor="let productos of producto" >
+             
+       
+            <h1 class="nombre" ><b>{{productos.nombre}}</b></h1>   
+            <br>
+            <p  class="resumen">{{descripcions.resumen}}<br>
+            <p  class="marca">Marca <a href="#"> {{productos.id_marca}}</a> </p>  
+            <p  class="categoria">Categoria <a href="#"> {{productos.id_categoria}}</a> </p>  
+            <p class="detalle">{{descripcions.desc1}}</p>
+            <p class="detalle">{{descripcions.desc2}}</p>
+            <p class="detalle">{{descripcions.desc3}}</p>
+            <p class="detalle">{{descripcions.desc4}}</p>
+            <p class="detalle">{{descripcions.desc5}}</p>
+            <p class="detalle">{{descripcions.desc6}}</p>
+            <p class="detalle">{{descripcions.desc7}}</p>
+            <p class="detalle">{{descripcions.desc8}}</p>
+     
+         <br>
+      <div>
+            <p class="stock"><b>STOCK: {{productos.stock}} </b></p>
+            <p class="precio">S/. {{productos.precio}}</p>
+      </div>
+
+      <div class="flex justify-content-center">
+          <p-button class="p-button-lg btn" label="Agregar al Carrito" icon="pi pi-cart-plus" (onClick)="agregarCarrito()"></p-button>   
+          <p-button class="p-button-lg btn" label="Comprar" icon="pi pi-cart-plus"></p-button>   
+
+      </div>
+
+      </div>
+</section>
+
+            
+
+            
+          </div>
+      </p-panel>
+        
+
+
+        </div>
+  </div>

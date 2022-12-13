@@ -1,0 +1,28 @@
+.detalle{
+    font-size:15px
+  }
+.resumen{
+   font-size:18px;
+   color:#626567;
+}
+.nombre{
+    font-size:25px;
+}
+.marca{
+    margin-top:25px;
+    font-size:16px
+}
+.categoria{
+    font-size:15px;
+    margin-top:10px;
+    margin-bottom:25px;
+}
+.stock{
+    font-size:18px
+}
+.precio{
+    font-size:18px
+}
+.img:hover{
+transform:translateY(0) scale(1.1)
+}
