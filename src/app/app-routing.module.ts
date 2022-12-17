@@ -38,6 +38,10 @@ const routes: Routes = [
         loadChildren: () => import('./vistasAdmin/Ventas/ventas.module').then(m => m.VentasModule), canActivate: [AuthGuard]
       },
     
+      {
+        path: 'Marca',
+        loadChildren: () => import('./vistasAdmin/Marca/marca.module').then(m => m.MarcaModule), canActivate: [AuthGuard]
+      },
     ]
   },
 

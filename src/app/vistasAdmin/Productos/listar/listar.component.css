@@ -87,7 +87,9 @@
  
 }
  */
-
+.stock{
+    min-width:10rem;
+}
 .acciones{
     min-width:2rem;
     padding: 0px;
@@ -97,6 +99,9 @@
 .tdnumeros{
     min-width: 8rem;  
     
+}
+.precio{
+    min-width: 8rem;
 }
 .categoria{
     min-width: 12rem;
@@ -122,6 +127,8 @@
 }
 
 .center{
+    display:flex;
+    align-items:center;
     justify-content:center;
 }
 
@@ -166,3 +173,4 @@
 .left{
     justify-content: left;
 }
+

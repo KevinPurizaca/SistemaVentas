@@ -12,7 +12,7 @@ export class MarcaproductoService {
 
 
 
-  private url:string="Marcas";
+  private url:string="Marca";
 
 
   constructor(private http:HttpClient) { }
@@ -21,25 +21,29 @@ export class MarcaproductoService {
     return this.http.post<Marcaproducto[]>(environment.UrlBase+this.url+MetodosHttp.Listar,req);
   }
 
-   //CREAR PRODUCTOS
-  create(marca:Marcaproducto):Observable<Marcaproducto>{
+  crear(marca:Marcaproducto):Observable<Marcaproducto>{
     return this.http.post<Marcaproducto>(environment.UrlBase+this.url+MetodosHttp.Crear,marca);
   }
   
-  //OBTENER PRODUCTO
   getId(id: number){
     return this.http.get<Marcaproducto>(environment.UrlBase+this.url+MetodosHttp.ListarId+id);
   }
 
-  //ACTUALIZAR PRODUCTOS
+
   update(marca:Marcaproducto):Observable<Marcaproducto>{
     return this.http.put<Marcaproducto>(environment.UrlBase+this.url+MetodosHttp.Actualizar,marca);
   }
 
-  //ELIMINAR PRODUCTOS
+  
 
   delete(id:number):Observable<Marcaproducto>{
     return this.http.delete<Marcaproducto>(environment.UrlBase+this.url+'/'+id)
+  }
+
+
+  cambiarestado(marca:Marcaproducto):Observable<Marcaproducto>
+  {
+    return this.http.put<Marcaproducto>(environment.UrlBase+this.url+MetodosHttp.ActualizarEstado,marca)
   }
   
 }

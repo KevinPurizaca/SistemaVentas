@@ -24,12 +24,13 @@ export class ListarComponent implements OnInit {
   
   formCategoriaEditable: FormGroup;
   formCategoriaCrear: FormGroup;
+  
   totalRecord=0;
   categoria:Categoria_Producto[]=[]
   lsCategoriadto!:Categoria_Producto;
 
 
-  acceptedFiles = '.jpeg,.jpg,.png,.webp';
+  acceptedFiles = '.jpeg,.jpg,.png,.webp,.jfif';
  uploadedFiles: any[] = [];
   httpHeaders: any;
 
@@ -48,10 +49,12 @@ export class ListarComponent implements OnInit {
 
     
     this.formCategoriaEditable = fbpe.group({
+    //  txtIddg:['',[Validators.required]],
       txtNombredg: ['',[Validators.required]],
      
     });
     this.formCategoriaCrear = fbpe.group({
+   //   txtId:['',[Validators.required]],
       txtNombre: ['',[Validators.required]],
      
      
@@ -239,6 +242,7 @@ if(this.formCategoriaEditable.valid){
 }
 
 if(this.formCategoriaCrear.valid){
+
   this.loadingc=true
   this.firebase.subirImagen("Categoria/",value.txtNombre,file)
   .then((url:any)=>{
@@ -252,7 +256,7 @@ if(this.formCategoriaCrear.valid){
       this.categoriaService.crear(this.categoria2).subscribe((res:any) => {
         if(res.success=false){
           
-          this.idDialogc = true; 
+        //  this.idDialogc = true; 
           this.messageService.add({
             key: 'tst',
             severity: 'error',
@@ -302,7 +306,7 @@ if(this.formCategoriaCrear.valid){
 
  cambiarestado(event:any,item:any){
   this.lsCategoriadto=item;
-  console.log(item);
+ 
   try {
     if(item.estado == 1){
     
@@ -343,24 +347,17 @@ if(this.formCategoriaCrear.valid){
         }
       })
      
-
-    
-      
     }
   } catch (error) {
     console.log(`Error: ${error}`);
   }
-
-  
-  
- console.log(item);
 }
 
 
 leerimagenes2(event:any){
 
-  this.uploadedFiles.splice(event.files);
-  for(let file of event.files) {
+  this.uploadedFiles.splice(event.target.files);
+  for(let file of event.target.files) {
     this.extraerBase64(file).then((imagen: any) => {
         this.lsCategoriadto.imagen = imagen.base
         this.uploadedFiles.push(imagen.base);

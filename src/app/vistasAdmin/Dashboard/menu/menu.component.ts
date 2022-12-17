@@ -93,7 +93,7 @@ export class MenuComponent implements OnInit {
   apellido_p= localStorage.getItem ('Apellido_p')
   apellido_m= localStorage.getItem ('Apellido_m')
 
-        logout(){  
+        confirm1(){  
 
          /* this.confirmationService.confirm({
             message: '¿Sguro que quieres cerrar Sesion?',
@@ -128,27 +128,29 @@ export class MenuComponent implements OnInit {
       }*/
       
 
-      confirm1() {
+      logout() {
         this.confirmationService.confirm({
             message: '¿Seguro Que Deseas Cerrar Sesion?',
             header: 'Cerrar Sesion',
             icon: 'pi pi-sign-out',            
-
+            acceptLabel:'Si',
+            rejectLabel:'No',
             accept: () => {
-              this.http.logout()
-              localStorage.removeItem('Token');
-              localStorage.removeItem('Nombre');
-              localStorage.removeItem('Apellido_p');
-              localStorage.removeItem('Apellido_m');
-              localStorage.removeItem('Telefono');
-              localStorage.removeItem('Correo');
-              localStorage.removeItem('Imagen');
-              localStorage.removeItem('Dni');
+             // this.http.logout()
+              // localStorage.removeItem('Token');
+              // localStorage.removeItem('Nombre');
+              // localStorage.removeItem('Apellido_p');
+              // localStorage.removeItem('Apellido_m');
+              // localStorage.removeItem('Telefono');
+              // localStorage.removeItem('Correo');
+              // localStorage.removeItem('Imagen');
+              // localStorage.removeItem('Dni');
             
 
 
                 this.messageService.add({key:'tst',severity:'info', summary:'Sesion Cerrada', detail:'Usted a Cerrado Sesion'});
-                this.router.navigate(['Login']);  
+                this.http.logout()
+                // this.router.navigate(['Login']);  
               },
             reject: (type: any) => {
                 switch(type) {

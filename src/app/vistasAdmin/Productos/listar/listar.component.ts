@@ -243,6 +243,7 @@ listarProducto(req:any){
         if(!data){
           return
         }
+     //   let result = data.filter(x=> x.estado ==1)
         this.marca=data
       })
     }
@@ -253,9 +254,8 @@ listarProducto(req:any){
         if(!data){
           return
         }
-        let result = data.filter(x=> x.estado==1)
-        this.proveedor=result
-        console.log(this.proveedor);
+      //  let result = data.filter(x=> x.estado==1)
+        this.proveedor=data    
 
       })
     }

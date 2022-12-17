@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   loginForm:FormGroup;
 
   nombre:string="";
-  correo:string="a@gmail.com";
+  correo:string="k@gmail.com";
   contrasenia:string="";
 
 
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     ) {
     this.loginForm = fb.group({
       correo: ['',[Validators.pattern(this.emailPattern),Validators.required]],
-      contrasenia: ['12345',[Validators.required]],
+      contrasenia: ['123456',[Validators.required]],
 
   });
 

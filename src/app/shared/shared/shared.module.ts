@@ -22,7 +22,7 @@ import { PasswordModule } from 'primeng/password';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { StepsModule } from 'primeng/steps';
 
-
+import { ChipModule } from 'primeng/chip';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import {  TabMenuModule } from 'primeng/tabmenu';
@@ -41,7 +41,7 @@ import {ImageModule} from 'primeng/image';
     DropdownModule,
     TableModule,
     SliderModule,
-
+    ChipModule,
     BlockUIModule,
     ImageModule,
     ButtonModule,
@@ -70,7 +70,7 @@ import {ImageModule} from 'primeng/image';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
+    ChipModule,
     DropdownModule,
     TableModule,
     SliderModule,

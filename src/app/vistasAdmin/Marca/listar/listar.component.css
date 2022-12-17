@@ -126,13 +126,13 @@
     padding: 0.5rem 0.5rem !important; 
 }
 
+:host ::ng-deep .p-chip.custom-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+
 
 
 .pbutonimg{
     margin-left:270px;
-}
-
-:host ::ng-deep .p-chip.custom-chip {
-    background: var(--primary-color);
-    color: var(--primary-color-text);
 }

@@ -133,10 +133,10 @@
           <th class="categoria height">
             Categoria
           </th>
-          <th class="tdnumeros center height">
+          <th class="precio center height">
             Precio
           </th>
-          <th class="tdnumeros center height">
+          <th class="stock center height ">
             Stock
           </th>
           <th class="marca center height" > 
@@ -159,7 +159,7 @@
 
       <ng-template pTemplate="body"  let-data>
      
-        <tr >
+        <tr>
  
           <td class="BodyTh">
             {{  data.nombre  }}
@@ -169,17 +169,12 @@
             {{ data.categoria }}
           </td>
 
-          <td class="tdnumeros right">
-            S/. {{ data.precio}}
+          <td class="precio right">
+            S/. {{ data.precio | currency:'':'':'1.2-2'}}
           </td>
 
-          <td class="tdnumeros center">
-            <!-- {{ data.stock}}        -->
-            
-            <div [ngClass]="{'outofstock': data.stock === 0, 'lowstock': (data.stock > 0 && data.stock < 10),'instock': data.stock > 10}">
-  
-              {{data.stock}}
-          </div>
+          <td class="center stock">
+            <span >{{data.vstock}}</span>
           </td>
 
           <td class="marca center">

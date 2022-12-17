@@ -1,6 +1,7 @@
 export class Marcaproducto {
     
-    id_marca:number=0;
-    nombre_marca:string="";
-    imagen_marca:string="";
+    id?:number=0;
+    nombre?:string="";
+    imagen?:string="";
+    estado?:number=0;
 }

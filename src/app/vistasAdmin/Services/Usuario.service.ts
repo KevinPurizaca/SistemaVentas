@@ -110,17 +110,15 @@ isLoggedIn() {
 }
 
 logout() {
+
   localStorage.removeItem('Token');
-  localStorage.removeItem('Nombre')
+  localStorage.removeItem('Nombre');
   localStorage.removeItem('Apellido_p');
-  localStorage.removeItem('Apellido_m')
+  localStorage.removeItem('Apellido_m');
   localStorage.removeItem('Telefono');
-  localStorage.removeItem('Correo')
-  localStorage.removeItem('Imagen')
+  localStorage.removeItem('Correo');
+  localStorage.removeItem('Imagen');
   localStorage.removeItem('Dni');
-  localStorage.removeItem('email')
-  localStorage.removeItem('phone');
-  localStorage.removeItem('image')
   
 
   

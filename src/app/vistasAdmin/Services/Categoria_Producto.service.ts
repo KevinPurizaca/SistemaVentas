@@ -44,8 +44,8 @@ crear(req:Categoria_Producto):Observable<Categoria_Producto[]>{
   return this.http.post<Categoria_Producto[]>(environment.UrlBase+this.url+MetodosHttp.Crear,req)
 }
 
-cambiarestado(producto:Categoria_Producto):Observable<Categoria_Producto>
+cambiarestado(categoria:Categoria_Producto):Observable<Categoria_Producto>
   {
-    return this.http.put<Categoria_Producto>(environment.UrlBase+this.url+MetodosHttp.ActualizarEstado,producto)
+    return this.http.put<Categoria_Producto>(environment.UrlBase+this.url+MetodosHttp.ActualizarEstado,categoria)
   }
 }
