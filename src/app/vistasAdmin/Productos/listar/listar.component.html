@@ -103,13 +103,10 @@
 </div>
 
 
-<div class="col-12">
+<!-- <div class="col-12">
   <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
 
-<!-- 
-  styleClass="p-datatable-striped"
 
-      styleClass="p-datatable-gridlines" -->
   <p-panel header="Tabla Productos" 
    [toggleable]="true" class="line-height-3 m-0"> 
    
@@ -229,7 +226,79 @@
       currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
   
   </p-panel>
+</div> -->
+
+<div class="col-12">
+  <p-panel header="Tabla Productos" [toggleable]="true" class="line-height-3 m-0">
+    <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+    <p-table #dt [value]="producto" [loading]="loading"
+              [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
+               currentPageReportTemplate="Mostrando {first} a {{limite}} de {{totalRecord}} Registros" 
+              [showCurrentPageReport]="true" [scrollable]="true" responsiveLayout="scroll"
+              >
+
+      <ng-template pTemplate="header">
+          <tr>
+              <th  pSortableColumn="nombre" style="min-width:20rem">Nombre<p-sortIcon field="nombre"></p-sortIcon></th>
+              <th  style="min-width:8rem;justify-content: center;">Imagen</th>
+              <th  style="min-width:8rem;justify-content: center;">Imagen2</th>
+              <th  style="min-width:8rem;justify-content: center;">Imagen3</th>
+              <th  pSortableColumn="precio"  style="min-width:8rem">Precio<p-sortIcon field="precio"></p-sortIcon></th>
+              <th  pSortableColumn="categoria" style="min-width:12rem;">Categoria<p-sortIcon field="categoria"></p-sortIcon></th>
+              <th  pSortableColumn="marca"  style="min-width:8rem;">Marca<p-sortIcon field="marca"></p-sortIcon></th>
+              <th  pSortableColumn="estrellas"  style="min-width:10rem;">Clasificacion<p-sortIcon field="estrellas"></p-sortIcon></th>
+              <th  pSortableColumn="vstock"  style="min-width:8rem;">Stock<p-sortIcon field="vstock"></p-sortIcon></th>
+              <th pFrozenColumn  alignFrozen="right">
+                Acciones
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+          <tr>
+              <td style="min-width:20rem">{{data.nombre}}</td>
+              <td style="min-width:8rem;justify-content: center;">
+                <img src="{{ data.img1 }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.nombre" width="80" height="70" class="shadow-4" />
+              </td>
+              <td style="min-width:8rem;justify-content: center;">
+                <img src="{{ data.img2 }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.nombre" width="80" height="70" class="shadow-4" />
+              </td>
+              <td style="min-width:8rem;justify-content: center;">
+                <img src="{{ data.img3 }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.nombre" width="80" height="70" class="shadow-4" />
+              </td>
+              <td  style="min-width:8rem;">S/. {{data.precio | currency:'':'':'1.2-2'}}</td>
+              <td style="min-width:12rem;">{{data.categoria}}</td>
+              <td  style="min-width:8rem;">{{data.marca}}</td>
+              <td  style="min-width:10rem;"><p-rating [ngModel]="data.estrellas" [readonly]="true" [cancel]="false"></p-rating></td>
+              <td  style="min-width:8rem;"><span [class]="'product-badge status-' + data.vstock.toLowerCase()">{{data.vstock}}</span></td>
+
+              <td pFrozenColumn  alignFrozen="right">
+
+                <button (click)="eliminarProducto($event,data.id)" pButton icon="pi pi-trash" title="Eliminar"
+                        class="p-button-danger btndelete">
+                </button>     
+    
+                <button (click)="editProducto($event,data)"pButton icon="pi pi-file-edit" 
+                        title="Editar"class="p-button-info btnedit" >
+                </button>
+                 
+                <button (click)="cambiarestado($event,data)"pButton [icon]="data.icono"
+                        [title]="data.poolTip +'Producto'" class="p-button-warning btnecambiarestado">
+                </button>
+              </td>
+
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">
+            En Total hay   {{producto ? producto.length : 0 }} Productos.
+          </div>
+      </ng-template>
+  </p-table>
+  </p-panel>
 </div>
+
+
+
 
 
 <p-dialog [(visible)]="idDialog" [style]="{width: '850px'}" header="Detalle Producto" [modal]="true" class="p-fluid">

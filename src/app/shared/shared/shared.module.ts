@@ -32,6 +32,10 @@ import {MenuItem} from 'primeng/api';
 import {HttpClientModule} from '@angular/common/http';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ImageModule} from 'primeng/image';
+
+import {ToolbarModule} from 'primeng/toolbar';
+import {RatingModule} from 'primeng/rating';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -62,8 +66,9 @@ import {ImageModule} from 'primeng/image';
     InputTextareaModule,
     PasswordModule,
     AutoCompleteModule,
-    HttpClientModule
-
+    HttpClientModule,
+    ToolbarModule,
+    RatingModule
     
   ],
   exports: [
@@ -96,7 +101,8 @@ import {ImageModule} from 'primeng/image';
     CalendarModule,
     TabViewModule,
 
-
+    ToolbarModule,
+    RatingModule
     
   ]
 })

@@ -14,27 +14,44 @@ export class ListarComponent implements OnInit {
   loading=true
   totalRecord=0
   usuarios:Usuario[]=[]
+
+  selectedUsuarios!: Usuario[];
+  indice:number=0;
+  limite:number=5;
+
+  req={
+    indice:0,
+    limite:5,
+    estado:-1
+  }
   constructor(
-    private usuarioService:UsuarioService
+    private usuarioService:UsuarioService,
+    private messageService:MessageService
   ) { }
 
   ngOnInit() {
-    this.listarUsuario()
+    this.listarUsuario(this.req)
   }
 
   cambiarPagina(){}
   editarUsuario(){}
   eliminarUsuario(){}
-
-  listarUsuario(){
-    this.usuarioService.getAll().subscribe(data=>{
+  crear(){}
+  eliminar(){}
+  listarUsuario(req:any){
+    this.usuarioService.getAll(req).subscribe((data:any)=>{
       if(!data){
-        return
+      return
       }
       this.usuarios=data
-      this.totalRecord = data.length
+      this.totalRecord = data[0].totalrecord;
+      console.log(data);
       this.loading= false
     })
 
   }
+
+  cambiarEstado($event:any,data:any){}
+  editUsuario(data:any){}
+  deleteUsuario(data:any){}
 }

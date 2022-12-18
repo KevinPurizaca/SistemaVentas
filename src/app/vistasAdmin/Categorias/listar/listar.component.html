@@ -65,8 +65,7 @@
   </p-panel>
 </div>
 
-
-<div class="col-12">
+<!-- <div class="col-12">
   <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
 
   <p-panel header="Tabla de Categorias" 
@@ -77,8 +76,7 @@
       [loading]="loading"
        [rowHover]="true"
       styleClass="p-datatable-gridlines" 
-      [scrollable]="true" 
-      responsiveLayout="scroll">
+      [scrollable]="true"      >
 
       <ng-template pTemplate="header">
         <tr>     
@@ -88,10 +86,7 @@
           <th class="HeaderTh">
             Nombre
           </th>   
-          <!-- <th class="HeaderTh">
-            Sub_Categorias 
-          </th>      -->
-          <th class="HeaderTh">
+             <th class="HeaderTh">
             Imagen 
           </th>
                        
@@ -109,10 +104,7 @@
           
           <td class="BodyTh">
             {{  data.nombre  }}
-          </td>        
-          <!-- <td class="BodyTh">
-            {{  data.estado  }}
-          </td>    -->
+          </td>      
           <td class="BodyThImg"  >
             <img  class="imgtableimg" alt="img1" src="{{ data.imagen }}"/>
           </td>
@@ -120,8 +112,6 @@
         
           <td class="text-center tdacciones">
            
-            
-
          
 
             <button (click)="editarCategoria($event,data)" pButton icon="pi pi-user-edit"
@@ -133,7 +123,7 @@
              ></button>
              <button (click)="eliminarCategoria($event,data.id)" pButton icon="pi pi-trash"
              tooltip="Eliminar"class="p-button-danger btndelete"></button>
-            <p-confirmPopup key="deleteUsuario{{data.iid_usuario}}"></p-confirmPopup>
+          
 
           </td>
         </tr>
@@ -165,7 +155,80 @@
       currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
   
   </p-panel>
+</div> -->
+
+<div class="col-12">
+  <p-panel>
+    <div class="card">
+      <!-- <p-paginator #paginator  [first]="first" [rows]="5" [totalRecords]="totalRecord" [rowsPerPageOptions]="[5,10,25,50]"
+      [showCurrentPageReport]="true"(onPageChange)="cambiarPagina($event)" ></p-paginator> -->
+
+       <p-table #dt [value]="categoria" [loading]="loading" [rowHover]="true" dataKey="id" 
+       [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" 
+       [rows]="5" [paginator]="true"#paginator [first]="first"  >       
+      
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="ml-2">#</th>
+                <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th> 
+                <th style="min-width:6rem" pSortableColumn="imagen" >Imagen</th>
+                <th pFrozenColumn  alignFrozen="right">Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+              <td class="ml-3">{{data.id}}</td>
+                <td style="min-width:15rem">{{data.nombre}}</td>     
+                <td style="min-width:6rem;justify-content: center;">
+                  <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
+            
+                </td>
+                <td  pFrozenColumn  alignFrozen="right">
+                 
+                      <button (click)="editarCategoria($event,data)" pButton icon="pi pi-user-edit" 
+                              tooltip="Editar"  class="p-button-info btnedit" >
+                      </button>
+
+                      <button (click)="cambiarestado($event,data)" pButton [icon]="data.icono" tooltipPosition="left" 
+                              [title]="data.poolTip +'Categoria'" class="p-button-warning btnecambiarestado">
+                      </button>
+
+                      <button (click)="eliminarCategoria($event,data.id)" pButton icon="pi pi-trash"
+                              tooltip="Eliminar"class="p-button-danger btndelete">
+                      </button>
+                 </td>
+            </tr>
+        </ng-template>
+
+   
+
+
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En Total hay  {{totalRecord ? totalRecord : 0 }} Categorias.
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontro Información.</td>
+          </tr>
+        </ng-template>
+  
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="7">
+              Cargando Información de Categorias. Espere Por Favor.
+            </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    </div>
+  </p-panel>
 </div>
+
 
 <p-dialog [(visible)]="idDialog" [style]="{width: '400px'}" header="Detalle Categoria" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content" >

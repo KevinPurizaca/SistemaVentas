@@ -13,9 +13,19 @@
     border: 0px;
     padding: 5px;
 }
+.btnestado{
+    width:auto;
+    background: none;
+    color: #F59E0B;
+    border: 0px;
+    padding: 5px;
+}
+
+
+
 .BodyTh{
     min-width: 12rem;
-    height: 90px;    
+      
     display: flex;
     font-size:18px;  
     float: right;
@@ -35,8 +45,8 @@
 
 .HeaderTh{
     min-width: 12rem;    
-    height:58px;    
-    font-size: 22px;
+    height:38px;    
+   
     display: flex;
     align-items: center;
     justify-content: center;  
@@ -87,3 +97,9 @@
 }
 
 
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: left;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+    padding: 0.3rem 0.3rem;
+}

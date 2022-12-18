@@ -58,11 +58,8 @@ name:string=""
     }
 
 
-  getAll():Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(environment.UrlBase+this.url+MetodosHttp.Listar).pipe(
-          catchError(this.errorHandler),
-        
-    );
+  getAll(req:any):Observable<Usuario[]>{
+    return this.http.post<Usuario[]>(environment.UrlBase+this.url+MetodosHttp.Listar,req)
   }
   getAllDelete():Observable<Usuario[]>{
     return this.http.get<Usuario[]>(environment.UrlBase+this.url+MetodosHttp.Listar)

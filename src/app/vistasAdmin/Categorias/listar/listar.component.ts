@@ -28,7 +28,7 @@ export class ListarComponent implements OnInit {
   totalRecord=0;
   categoria:Categoria_Producto[]=[]
   lsCategoriadto!:Categoria_Producto;
-
+  limite:number=5;
 
   acceptedFiles = '.jpeg,.jpg,.png,.webp,.jfif';
  uploadedFiles: any[] = [];
@@ -63,7 +63,7 @@ export class ListarComponent implements OnInit {
 
   req={
     indice:0,
-    limite:5,
+    limite:100,
     id_estado:1
   }
 

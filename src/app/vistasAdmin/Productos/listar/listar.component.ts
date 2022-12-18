@@ -45,7 +45,7 @@ export class ListarComponent implements OnInit {
   stock=""
   idDialog:boolean=false;
   submitted: boolean = false;
-
+  limite:number=5;
 
   req={
     indice:0,
