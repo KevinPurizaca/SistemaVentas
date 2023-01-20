@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { UsuarioService } from 'src/app/vistasAdmin/Services/Usuario.service';
 import { Usuario } from 'src/app/vistasAdmin/Model/Usuario';
+import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 @Component({
   selector: 'app-listar',
   templateUrl: './listar.component.html',
@@ -25,6 +26,7 @@ export class ListarComponent implements OnInit {
     estado:-1
   }
   constructor(
+    private httpCoreService:HttpCoreService,
     private usuarioService:UsuarioService,
     private messageService:MessageService
   ) { }
@@ -38,17 +40,15 @@ export class ListarComponent implements OnInit {
   eliminarUsuario(){}
   crear(){}
   eliminar(){}
+  
   listarUsuario(req:any){
-    this.usuarioService.getAll(req).subscribe((data:any)=>{
-      if(!data){
-      return
-      }
-      this.usuarios=data
-      this.totalRecord = data[0].totalrecord;
-      console.log(data);
-      this.loading= false
-    })
-
+    this.httpCoreService.post(req,'Usuario/Listar').subscribe(res=>{
+      this.usuarios= res.data;
+      this.loading=false;
+      console.log(res);
+      this.totalRecord = res.totalregistro;
+    }
+      )
   }
 
   cambiarEstado($event:any,data:any){}

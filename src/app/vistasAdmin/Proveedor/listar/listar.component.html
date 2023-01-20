@@ -1,0 +1,109 @@
+<div class="col-12">
+  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+
+  <p-panel header="Busqueda de Usuarios" [collapsed]="false" [toggleable]="true" class="line-height-3 m-0"> 
+      <form  >
+          <div class="p-fluid p-formgrid grid">
+
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>
+
+              
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>
+
+
+              
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div>             
+          </div>
+          <button (click)="btn()">asd</button>
+      </form>
+  </p-panel>
+</div>
+
+<div class="col-12">
+  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+ <p-panel  header="Administrar Usuarios"    
+ [toggleable]="true" class="line-height-3 m-0">
+  <div class="card">
+
+    <p-table #dt [value]="proveedor" [rows]="5" [paginator]="true" 
+             [tableStyle]="{'min-width': '75rem'}" [loading]="loading"
+             [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {{totalRecord}} Registros" 
+             [showCurrentPageReport]="true" [scrollable]="true" responsiveLayout="scroll">       
+      
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="ml-2" >#</th>
+                <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>              
+                <!-- <th pSortableColumn="apellidos" style="min-width:10rem">Apellidos <p-sortIcon field="Apellidos"></p-sortIcon></th> -->
+                <th pSortableColumn="correo" style="min-width:18rem">Correo<p-sortIcon field="correo"></p-sortIcon></th>
+                <th pSortableColumn="direccion" style="min-width:8rem">Dirección <p-sortIcon field="direccion"></p-sortIcon></th>
+                <th pSortableColumn="rol" style="min-width:10rem">Dni <p-sortIcon field="rol"></p-sortIcon></th>
+                <th pSortableColumn="telefono" style="min-width:8rem">Telefono <p-sortIcon field="telefono"></p-sortIcon></th>
+                <th style="min-width:6rem" pSortableColumn="imagen" >Imagen</th>
+                <th pFrozenColumn  alignFrozen="right">Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+              <td class="ml-3">{{data.id}}</td>
+                <td style="min-width:15rem">{{data.nombrecompletos}}</td>
+                        <!-- <td style="min-width:10rem">{{data.apellidos}}</td> -->
+                <td style="min-width:18rem">{{data.correo}}</td>
+                <td style="min-width:8rem">{{data.direccion}}</td>
+                <td style="min-width:10rem">{{data.dni}}</td>
+                <td style="min-width:8rem;justify-content: center;" >{{data.telefono}}</td>
+                <td style="min-width:6rem;justify-content: center;">
+                  <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
+            
+                </td>
+                <td  pFrozenColumn  alignFrozen="right">
+                    <button pButton pRipple icon="pi pi-pencil" title="Editar Usuario"class="p-button-info btnedit mr-2" (click)="edit(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash"  title="Eliminar Usuario"class=" p-button-danger btndelete mr-2" (click)="eliminar(data)"></button>
+                    <button pButton pRipple [icon]="data.icono" [title]="data.poolTip +'Usuario'" class="p-button-warning btnestado"  (click)="cambiarEstado($event,data)"  ></button>
+                  </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En Total hay  {{totalRecord ? totalRecord : 0 }} Usuarios.
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontro Información.</td>
+          </tr>
+        </ng-template>
+  
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="7">
+              Cargando Información de Proveedores. Espere Por Favor.
+            </td>
+          </tr>
+        </ng-template>
+    </p-table>
+    <!-- <p-paginator   
+      #paginator
+      [first]="first" 
+      [rows]="5" 
+      [totalRecords]="totalRecord" 
+      [rowsPerPageOptions]="[5,10,25,50]"
+      [showCurrentPageReport]="true"
+      (onPageChange)="cambiarPagina($event)"
+      currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator> -->
+</div>
+ </p-panel>
+</div>

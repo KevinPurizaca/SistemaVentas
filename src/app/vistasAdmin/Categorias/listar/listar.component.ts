@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService, ConfirmationService, PrimeNGConfig } from 'primeng/api';
+import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 import { Categoria_Producto } from 'src/app/vistasAdmin/Model/Categoria_Producto';
 import { CategoriaproductoService } from 'src/app/vistasAdmin/Services/Categoria_Producto.service';
 import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFirebase.service';
@@ -39,6 +40,7 @@ export class ListarComponent implements OnInit {
   constructor(
     private categoriaService:CategoriaproductoService,
     fbpe:FormBuilder,
+    private httpCore:HttpCoreService,
     private primengConfig: PrimeNGConfig,
     private messageService:MessageService,
     private _confirmationService: ConfirmationService,
@@ -64,7 +66,7 @@ export class ListarComponent implements OnInit {
   req={
     indice:0,
     limite:100,
-    id_estado:1
+    estado:-1
   }
 
   ngOnInit() {
@@ -73,18 +75,11 @@ export class ListarComponent implements OnInit {
 
 
   listarCategoria(req:any){
-    this.categoriaService.getAll(req).subscribe((data:any)=>{
-     
-      if(!data){
-        return
-      }        
-
-        this.categoria=  data,
-        this.loading=false,
-        this.totalRecord = data[0].totalrecord;
-      
-     
-
+    this.httpCore.post(req,'Categorias/Listar').subscribe(res=>{
+      //console.log(res);
+      this.categoria = res.data;
+      this.loading= false;
+      this.totalRecord = res.totalregistro;
     })
   }
 

@@ -5,7 +5,7 @@ import {MessageService} from 'primeng/api';
 import { Login } from 'src/app/core/Models/login';
 import { ResponseI } from 'src/app/core/Models/response';
 
-
+import * as sha512 from 'js-sha512';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UsuarioService } from 'src/app/vistasAdmin/Services/Usuario.service';
 import { Usuario } from '../../Model/Usuario';
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   nombre:string="";
   correo:string="k@gmail.com";
-  contrasenia:string="";
+  password:string="";
 
 
 
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     ) {
     this.loginForm = fb.group({
       correo: ['',[Validators.pattern(this.emailPattern),Validators.required]],
-      contrasenia: ['123456',[Validators.required]],
+      password: ['123456',[Validators.required]],
 
   });
 
@@ -56,6 +56,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  
+req={
+ correo:"k@gmail.com",
+ password:"123456"
+}
 
 
 
@@ -66,36 +71,53 @@ export class LoginComponent implements OnInit {
   
   token:string='abcdefghijklmnopqrstuvwxyz';
 
-  onLogin(form: Login){     
-      
-    //console.log(form);
-   this.http.loginByEmail(form).subscribe(data=>{
-        let dataResponse:ResponseI=data;
-        console.log(data);
-        console.log("datareesponde",dataResponse);
-        if(dataResponse.success== true){
-          localStorage.setItem('Token', dataResponse.data[0].token);
-          localStorage.setItem("Nombre",dataResponse.data[0].nombre)
-          localStorage.setItem('Apellido_p', dataResponse.data[0].apellido_p);
-          localStorage.setItem('Apellido_m',dataResponse.data[0].apellido_m);       
-          localStorage.setItem('Telefono', dataResponse.data[0].telefono);
+  onLogin(){     
 
-          localStorage.setItem('Correo', dataResponse.data[0].correo);
-          localStorage.setItem('Imagen',dataResponse.data[0].imagen)
-          localStorage.setItem('Dni', dataResponse.data[0].dni);   
-
-          this.router.navigate(['Productos/Listar'])
-        // this.messageService.add({key: 'tst',severity:'success', summary:'Service Message', detail:dataResponse.message});
+    let _req={
+      correo :this.req.correo,
+      password : sha512.sha512(this.req.password).toString().toUpperCase(),
+    }
+    console.log(_req)
+    // let _req = {
+    //   userName: this.req.userName,
+    //   password: sha512.sha512(this.req.password).toString().toUpperCase(),
+    //   googleToken: ''this.req.password,
+    // };
+  if (!(this.req.correo == '' || this.req.correo == undefined) && !(this.req.password == '' || this.req.password == undefined)) {
+      this.http.loginByEmail(_req).subscribe((res:any) => {
+       // console.log(res.data[0].token);
+      //  console.log(res.data.token);
+  
+        if (!res.isSuccess) {
+          this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message',
+                                 detail: res.message + ' ' + (res.messageExeption == null ? '' : res.messageExeption) });
+                                 console.log(_req)
+          return;
         }
-        else{
-          this.messageService.add({key: 'tst',severity:'error', summary:'Service Message', detail:dataResponse.message});
-
+        console.log(_req)
+        this.router.navigate(['Productos/Listar'])
+      },
+        (error: any) => {
+          this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: error });
         }
-    },     
-       
-     error => this.errorMessage= error.error.message
-     
-    );   
+      ); 
+    } else {
+      this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: 'Ingrese Información de Usuario' });
+    }
+
+
+
+
+
+      //  if (!res.isSuccess) {
+      //   this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: res.message + ' ' + (res.messageExeption == null ? '' : res.messageExeption) });
+      //   return;
+      // }
+
+         
+
+           
+    
 
   }
 

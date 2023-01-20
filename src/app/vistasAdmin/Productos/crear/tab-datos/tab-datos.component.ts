@@ -7,7 +7,7 @@ import { ComboModel } from 'src/app/core/util/combo';
 import { Categoria_Producto } from 'src/app/vistasAdmin/Model/Categoria_Producto';
 import { Marcaproducto } from 'src/app/vistasAdmin/Model/MarcaProducto';
 import { Producto } from 'src/app/vistasAdmin/Model/Producto';
-import { Proovedor } from 'src/app/vistasAdmin/Model/Proveedor';
+import { Proveedor } from 'src/app/vistasAdmin/Model/Proveedor';
 import { CategoriaproductoService } from 'src/app/vistasAdmin/Services/Categoria_Producto.service';
 import { MarcaproductoService } from 'src/app/vistasAdmin/Services/marcaproducto.service';
 import { ProductoService } from 'src/app/vistasAdmin/Services/Producto.service';
@@ -33,7 +33,7 @@ export class TabDatosComponent implements OnInit {
   marca2: Marcaproducto | undefined;
   lstecatcb: ComboModel[]=[];
   lstmarcacb:ComboModel[]=[]
-  proveedor:Proovedor[]=[]
+  proveedor:Proveedor[]=[]
  // producto: Producto[] = [];
 
   producto: Producto = new Producto();

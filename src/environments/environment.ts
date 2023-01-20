@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  UrlBase: 'http://192.168.0.106:3000/',
+  UrlBase: 'https://localhost:44334/',
   // UrlBase: 'https://asqasapibfkm.azurewebsites.net/api',
    //subscriptionkey:'',
 

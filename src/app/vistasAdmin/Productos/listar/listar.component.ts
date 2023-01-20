@@ -12,7 +12,8 @@ import { MarcaproductoService } from '../../Services/marcaproducto.service';
 
 import { PrimeNGConfig } from 'primeng/api';
 import { ProveedoresService } from '../../Services/Proveedores.service';
-import { Proovedor } from '../../Model/Proveedor';
+import { Proveedor } from '../../Model/Proveedor';
+import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 
 @Component({
   selector: 'app-listar',
@@ -22,7 +23,7 @@ import { Proovedor } from '../../Model/Proveedor';
 
 `
 ],
-  providers: [MessageService,ConfirmationService ]
+  providers: [ConfirmationService ]
 
 })
 export class ListarComponent implements OnInit {
@@ -40,6 +41,8 @@ export class ListarComponent implements OnInit {
   pi:string=""
   loadingbtn=[false]
 
+  cboCategoria:ComboModel[]=[];
+
   totalRecord:number=0
   first:number=0
   stock=""
@@ -49,20 +52,25 @@ export class ListarComponent implements OnInit {
 
   req={
     indice:0,
-    limite:5
+    limite:5,
+    estado:-1,
+    nombre:'',
+    id_marca:-1,
+    id_categoria:-1,
+    id_proveedor:-1
 
   }
   
   req2={
     indice:0,
-    limite:10,
-    id_estado:1
+    limite:100,
+    estado:-1
 
   }
   producto:Producto[]=[]
   categorias:Categoria_Producto[]=[]
   marca:Marcaproducto[]=[]
-  proveedor:Proovedor[]=[]
+  proveedor:Proveedor[]=[]
 
   lsproductodto!:Producto;
   lstecatcb: ComboModel[]=[];
@@ -73,6 +81,7 @@ export class ListarComponent implements OnInit {
   constructor(
     fb: FormBuilder,
     fbpe:FormBuilder,
+    private httpCore:HttpCoreService,
     private productService:ProductoService,
     private catService:CategoriaproductoService,
     private marService:MarcaproductoService,
@@ -105,7 +114,22 @@ export class ListarComponent implements OnInit {
 
   }
 
-  
+  buscar(){
+    const value = this.formBusqueda.value;
+
+    const req ={
+          indice:0,
+          limite:5,
+          estado:-1,
+          id_marca: value.cboMarca,
+          nombre:'',
+          id_categoria:value.cboCategoria,
+          id_proveedor:value.cboProveedor
+    }
+    console.log(req);
+    console.log(value.cboMarca);
+    this.listarProducto(req);
+  } 
 
 
   ngOnInit() {
@@ -113,7 +137,7 @@ export class ListarComponent implements OnInit {
 
     this.getCategorias(this.req2)
     this.getMarca(this.req2)
-   this.getProveedores(this.req)
+   this.getProveedores(this.req2)
     this.listarProducto(this.req)
   }
 
@@ -127,6 +151,7 @@ export class ListarComponent implements OnInit {
     this.formBusqueda.controls['cboCategoria'].setValue(-1);    
     this.formBusqueda.controls['txtNombre'].setValue('');
 
+    this.listarProducto(this.req)
   }
 
   editProducto(event: Event,item: any){
@@ -147,15 +172,15 @@ export class ListarComponent implements OnInit {
           estado:0
         }
         this.productService.cambiarestado(req).subscribe((res:any)=>{
-          if(res.success=false){
+          // if(res.success=false){
 
-            console.log("error");
-            return  
+          //   console.log("error");
+          //   return  
     
-          }else{
+        //  }else{
       
             this.listarProducto(this.req)
-          }
+          //}
         })
      
        
@@ -166,17 +191,17 @@ export class ListarComponent implements OnInit {
           estado:1
         }
         this.productService.cambiarestado(req).subscribe((res:any)=>{
-          if(res.success=false){
-            console.log("error");
+          // if(res.success=false){
+          //   console.log("error");
             
-            return  
+          //   return  
     
-          }else{
+          // }else{
 
 
             this.listarProducto(this.req)
 
-          }
+        //  }
         })
        
 
@@ -189,7 +214,7 @@ export class ListarComponent implements OnInit {
   
     
     
-   console.log(item);
+  // console.log(item);
   }
 
 changePage(event: any) {
@@ -202,60 +227,53 @@ changePage(event: any) {
 
 listarProducto(req:any){
  
-    this.productService.getProductoAll(req).subscribe((data:any)=>{
-  
+  this.httpCore.post(req,'Producto/Listar').subscribe((res)=>{
 
-      if(!data){
-        this.messageService.add({
-          key: 'tst',
-          severity: 'error',
-          summary: 'Error Message',
-          detail:
-          data.message + ' ' + data.innerException,
-      });   
-      return   
-      }
-      this.producto = data  
-      this.loading= false;
-      this.totalRecord = data[0].totalrecord;
- 
-    })
-
-
-  
+    //console.log(res);
+    this.producto = res.data  
+    this.loading= false;
+    this.totalRecord = res.totalregistro;
+})
   
   }
 
 
     getCategorias(req:any){
 
-      this.catService.getAll(req).subscribe(data=>{
-        if(!data){
+      this.catService.getAll(req).subscribe((res:any)=>{
+        if(!res){
           return            
          }
-      this.categorias = data   
-
+     // this.categorias = res.data   
+     this.categorias.push({id:-1,nombre:'Seleccione'})
+     this.categorias= this.categorias.concat(res.data)
       })
+
+
     }
     
     getMarca(req:any){
-      this.marService.getAll(req).subscribe(data=>{
-        if(!data){
+      this.marService.getAll(req).subscribe((res:any)=>{
+        if(!res){
           return
         }
      //   let result = data.filter(x=> x.estado ==1)
-        this.marca=data
+      //  this.marca=res.data
+      this.marca.push({id:-1,nombre:'Seleccione'})
+      this.marca= this.marca.concat(res.data)
       })
     }
 
     getProveedores(req:any){
    
-      this.provService.getAll(req).subscribe(data=>{
-        if(!data){
+      this.provService.getAll(req).subscribe((res:any)=>{
+        if(!res){
           return
         }
       //  let result = data.filter(x=> x.estado==1)
-        this.proveedor=data    
+       // this.proveedor=res.data    
+        this.proveedor.push({id:-1,nombrecompletos:'Seleccione'})
+        this.proveedor= this.proveedor.concat(res.data)
 
       })
     }
@@ -284,34 +302,39 @@ if(this.formProductoEditable.valid){
     "stock":value.txtStockdg,
     "precio":value.txtPreciodg,
   }
+console.log(this.producto2);
 
+this.httpCore.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
+  if(!res.isSuccess){
+    this.idDialog = true; 
+    this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
+    return  
+  }
+  else{
+    this.submitted = false;
+    this.idDialog = false; 
+    this.listarProducto(this.req)
+    this.messageService.add({ key: 'tst',  severity: 'info',  summary: 'Confirmado', detail:res.message });
+  }
+})
 
-  this.productService.update(this.producto2).subscribe((res:any) => {
-      if(res.success=false){
-        this.idDialog = true; 
-        this.messageService.add({
-          key: 'tst',
-          severity: 'error',
-          summary: 'Error Message',
-          detail:
-              res.message + ' ' + res.innerException,
-      });
-        return  
+  // this.productService.update(this.producto2).subscribe((res:any) => {
+  //     if(res.success=false){
 
-      }else{
-        this.submitted = false;
-        this.idDialog = false; 
-        this.listarProducto(this.req)
-        this.messageService.add({
-          key: 'tst',
-          severity: 'info',
-          summary: 'Confirmado',
-          detail:
-              res.message
-      });
-      }
-    }
-   )
+  //     }else{
+  //       this.submitted = false;
+  //       this.idDialog = false; 
+  //       this.listarProducto(this.req)
+  //       this.messageService.add({
+  //         key: 'tst',
+  //         severity: 'info',
+  //         summary: 'Confirmado',
+  //         detail:
+  //             res.message
+  //     });
+  //     }
+  //   }
+  //  )
 }
 }
 

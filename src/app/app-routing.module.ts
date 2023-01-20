@@ -42,6 +42,10 @@ const routes: Routes = [
         path: 'Marca',
         loadChildren: () => import('./vistasAdmin/Marca/marca.module').then(m => m.MarcaModule), canActivate: [AuthGuard]
       },
+      {
+        path: 'Proveedor',
+        loadChildren: () => import('./vistasAdmin/Proveedor/proveedor.module').then(m => m.ProveedorModule), canActivate: [AuthGuard]
+      },
     ]
   },
 

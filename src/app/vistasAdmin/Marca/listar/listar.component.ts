@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PrimeNGConfig, MessageService, ConfirmationService } from 'primeng/api';
+import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 import { Marcaproducto } from '../../Model/MarcaProducto';
 import { MarcaproductoService } from '../../Services/marcaproducto.service';
 import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFirebase.service';
@@ -10,7 +11,7 @@ import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFireba
   selector: 'app-listar',
   templateUrl: './listar.component.html',
   styleUrls: ['./listar.component.css'],
-  providers: [MessageService,ConfirmationService ]
+  providers: [ConfirmationService ]
 })
 export class ListarComponent implements OnInit {
 
@@ -47,6 +48,7 @@ export class ListarComponent implements OnInit {
     fbpe:FormBuilder,
     private primengConfig: PrimeNGConfig,
     private messageService:MessageService,
+    private httpCoreService:HttpCoreService,
     private _confirmationService: ConfirmationService,
     private firebase:SubirImagenesFirebaseService,
     private sanitizer: DomSanitizer,
@@ -68,15 +70,12 @@ export class ListarComponent implements OnInit {
   }
 
   loadData(req:any){
-    this.marcaService.getAll(req).subscribe((data:any)=>{
-      if(!data){
-        return
-      }
-      this.marca = data;
-      this.loading =false;
-      this.totalRecord = data[0].totalrecord;
+
+    this.httpCoreService.post(req,'Marca/Listar').subscribe(res=>{
+      this.marca = res.data;
+      this.loading= false;
+      this.totalRecord = res.totalregistro;
     })
-    
   }
 
   cambiarPagina(event:any){

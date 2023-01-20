@@ -6,7 +6,7 @@
             <img alt="imgUsuario" onerror="this.src='/assets/imgno.jpg'"  class="logoimg" [src]="[imagen]"/>
         </button>
 
-        <div class="logo-text " *ngIf="collapsed" >{{nombre}} {{apellido_p}}</div>      
+        <div class="logo-text " *ngIf="collapsed" >{{nombre}}</div>      
         <button class="btn-close fal fa-times close-icon" @rotate *ngIf="collapsed" (click)="closeSidenav()">
            
         </button>

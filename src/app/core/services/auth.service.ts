@@ -18,11 +18,11 @@ export class AuthService {
      ) {}
 
   setToken(token: string): void {
-    localStorage.setItem('token', token);
+    localStorage.setItem('userdata', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('Token');
+    return localStorage.getItem('token');
   }
 
   isLoggedIn() {
@@ -30,7 +30,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('Token');
+    localStorage.removeItem('userdata');
+    localStorage.removeItem('token');
     this.router.navigate(['Home']);
   }
 

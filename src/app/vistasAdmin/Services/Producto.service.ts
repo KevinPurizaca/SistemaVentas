@@ -8,8 +8,6 @@ import { environment } from 'src/environments/environment';
 import { Producto } from 'src/app/vistasAdmin/Model/Producto';
 
 import{MetodosHttp} from 'src/app/core/util/MetodosHttp'
-import { DescripcionProducto } from '../Model/DescripcionProducto';
-import { Subject } from 'rxjs';
 
 
 Firebase.initializeApp(environment.firebaseConfig)

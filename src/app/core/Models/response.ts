@@ -1,5 +1,5 @@
 export interface ResponseI{
-    success:boolean;
+    isSuccess:boolean;
     message:string;
     data:any;
     error:any

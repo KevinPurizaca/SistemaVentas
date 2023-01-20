@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,6 +14,7 @@ import { DashboardModule } from './vistasAdmin/Dashboard/dashboard.module';
 
 
 import { TabMenuModule } from 'primeng/tabmenu';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,  
@@ -33,7 +34,10 @@ import { TabMenuModule } from 'primeng/tabmenu';
 //    AngularFireStorageModule
 
   ],
-  providers: [],
+  providers: [
+    //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    MessageService,
+  ],
   bootstrap: [AppComponent],
   
 })

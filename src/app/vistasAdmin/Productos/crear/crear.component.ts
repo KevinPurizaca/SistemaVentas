@@ -7,7 +7,7 @@ import { CategoriaproductoService } from '../../Services/Categoria_Producto.serv
 import { MarcaproductoService } from '../../Services/marcaproducto.service';
 import {MenuItem} from 'primeng/api';
 import { ProductoService } from '../../Services/Producto.service';
-import { Proovedor } from '../../Model/Proveedor';
+import { Proveedor } from '../../Model/Proveedor';
 import { ProveedoresService } from '../../Services/Proveedores.service';
 @Component({
   selector: 'app-crear',
@@ -25,7 +25,7 @@ nombre='PRODUCTO INOPUT'
 
   lstecatcb: ComboModel[]=[];
   lstmarcacb:ComboModel[]=[]
-  proveedor:Proovedor[]=[]
+  proveedor:Proveedor[]=[]
 
   rangeValues: number[] = [20,80];
 

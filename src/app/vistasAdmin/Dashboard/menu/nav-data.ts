@@ -17,7 +17,7 @@ export const navbarData =[
     iconUser:'fal fa-user',
     labelUser:'Usuarios',
 
-    routeLinkProveedor:'Proveedores',
+    routeLinkProveedor:'Proveedor/Listar',
     iconProveedor:'fal fa-box-open',
     labelProveedor:'Proveedor',
 

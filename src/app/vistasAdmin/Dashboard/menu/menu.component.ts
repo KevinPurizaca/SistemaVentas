@@ -37,7 +37,7 @@ interface oculto{
       ])
     ])
   ],
-  providers: [ConfirmationService,MessageService]
+  providers: [ConfirmationService]
   
 })
 export class MenuComponent implements OnInit {
@@ -55,6 +55,10 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  nombre:string="";
+  imagen:string =""
+  apellido_p:string= ""
+  apellido_m:string= ""
 
   oculto=true;
   collapsed=false;
@@ -72,6 +76,16 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
+
+
+
+    let userdata =     JSON.parse(localStorage.getItem('userdata') || '');
+
+    if(userdata.nombres !== null) {
+      this.nombre = `${userdata[0].nombre} ${userdata[0].apellido_p}`;
+      this.imagen = `${userdata[0].imagen}`
+    }
+
   }
 
 
@@ -88,44 +102,17 @@ export class MenuComponent implements OnInit {
 
 
 
-  nombre=localStorage.getItem ('Nombre')
-  imagen =localStorage.getItem ('Imagen')
-  apellido_p= localStorage.getItem ('Apellido_p')
-  apellido_m= localStorage.getItem ('Apellido_m')
 
         confirm1(){  
 
-         /* this.confirmationService.confirm({
-            message: '¿Sguro que quieres cerrar Sesion?',
-            accept: () => {
-                     }
-        });*/
+
         
         this.http.logout()
-        localStorage.removeItem('Token');
+        //localStorage.removeItem('Token');
         this.router.navigate(['Login']);    
         }
 
-    /*    confirm1() {
-          this.confirmationService.confirm({
-              message: 'Are you sure that you want to proceed?',
-              header: 'Confirmation',
-              icon: 'pi pi-exclamation-triangle',
-              accept: () => {
-                  this.messageService.add({severity:'info', summary:'Confirmed', detail:'You have accepted'});
-              },
-              reject: (type:any) => {
-                  switch(type) {
-                      case ConfirmEventType.REJECT:
-                          this.messageService.add({severity:'error', summary:'Rejected', detail:'You have rejected'});
-                      break;
-                      case ConfirmEventType.CANCEL:
-                          this.messageService.add({severity:'warn', summary:'Cancelled', detail:'You have cancelled'});
-                      break;
-                  }
-              }
-          });
-      }*/
+
       
 
       logout() {
@@ -136,21 +123,12 @@ export class MenuComponent implements OnInit {
             acceptLabel:'Si',
             rejectLabel:'No',
             accept: () => {
-             // this.http.logout()
-              // localStorage.removeItem('Token');
-              // localStorage.removeItem('Nombre');
-              // localStorage.removeItem('Apellido_p');
-              // localStorage.removeItem('Apellido_m');
-              // localStorage.removeItem('Telefono');
-              // localStorage.removeItem('Correo');
-              // localStorage.removeItem('Imagen');
-              // localStorage.removeItem('Dni');
-            
+
 
 
                 this.messageService.add({key:'tst',severity:'info', summary:'Sesion Cerrada', detail:'Usted a Cerrado Sesion'});
                 this.http.logout()
-                // this.router.navigate(['Login']);  
+                this.router.navigate(['Login']);  
               },
             reject: (type: any) => {
                 switch(type) {

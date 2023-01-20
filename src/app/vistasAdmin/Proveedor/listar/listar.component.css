@@ -1,0 +1,28 @@
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: left;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+    padding: 0.5rem 0.5rem !important; 
+}
+
+.btndelete{
+    width:auto;
+    background: none;
+    color: red;
+    border: 0px;
+    padding: 5px;
+}
+.btnedit{
+    width:auto;
+    background: none;
+    color: blue;
+    border: 0px;
+    padding: 5px;
+}
+.btnestado{
+    width:auto;
+    background: none;
+    color: #F59E0B;
+    border: 0px;
+    padding: 5px;
+}

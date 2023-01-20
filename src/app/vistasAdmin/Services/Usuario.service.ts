@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders,HttpResp
 //import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, tap,throwError } from 'rxjs';
 import {catchError, map, mapTo} from 'rxjs/operators'
 import { Usuario } from 'src/app/vistasAdmin/Model/Usuario';
 import Firebase from 'firebase/compat/app';
@@ -14,6 +14,7 @@ import { ResponseI } from 'src/app/vistasAdmin/Model/response';
 import { Login } from 'src/app/core/Models/login';
 
 import{MetodosHttp} from 'src/app/core/util/MetodosHttp'
+import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 
 Firebase.initializeApp(environment.firebaseConfig)
 
@@ -33,7 +34,8 @@ name:string=""
 
 
   constructor( private http:HttpClient,
-    private router:Router  
+              private router:Router  ,
+              private httpCoreServce: HttpCoreService
     
     
     ) { }
@@ -79,15 +81,9 @@ delete(id:number):Observable<Usuario>{
 }
 
 
-//elimina los productos difinitivamente
-deleteTotal(id:number):Observable<Usuario>{
-  return this.http.delete<Usuario>(environment.UrlBase+"deleteTotal/"+id)
-}
 
-//restaura productos
-restaura(id:number):Observable<Usuario>{
-  return this.http.delete<Usuario>(environment.UrlBase+"restaurar/"+id)
-}
+
+
 
 
 
@@ -108,23 +104,23 @@ isLoggedIn() {
 
 logout() {
 
-  localStorage.removeItem('Token');
-  localStorage.removeItem('Nombre');
-  localStorage.removeItem('Apellido_p');
-  localStorage.removeItem('Apellido_m');
-  localStorage.removeItem('Telefono');
-  localStorage.removeItem('Correo');
-  localStorage.removeItem('Imagen');
-  localStorage.removeItem('Dni');
-  
+  localStorage.removeItem('token');
+  localStorage.removeItem('userdata');
 
-  
-  this.router.navigate(['Login']);
 }
 
 
- loginByEmail(form:Login):Observable<ResponseI>{
-  return this.http.post<ResponseI>(environment.UrlBase+this.url+MetodosHttp.Login,form)
+
+loginByEmail(data:any){
+    var endPoint =this.url+MetodosHttp.Login
+    return this.httpCoreServce.post(data,endPoint).pipe(
+      tap((res:any)=>{
+        if(res.isSuccess){
+          localStorage.setItem('token',res.data[0].token);
+          localStorage.setItem('userdata', JSON.stringify(res.data));
+        }
+      })
+    )
   
   }
 
