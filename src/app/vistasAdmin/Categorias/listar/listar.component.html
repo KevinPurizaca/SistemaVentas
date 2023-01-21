@@ -34,7 +34,7 @@
 
         <div class="col-12 md:col-2" >      
             <div class="flex">
-                <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-success mr-2"  pTooltip="Descargar Excel" tooltipPosition="bottom">l</button>
+                <p-button pRipple icon="pi pi-file-excel" styleClass="p-button-success mr-2"  pTooltip="Descargar Excel" tooltipPosition="bottom">l</p-button>
             </div>
                 
 </div>       
@@ -44,18 +44,13 @@
         <div class="col-12 md:col-4"></div>      
 
         <div class="col-12 md:col-2">
-            <button
-                class="p-ripple p-element mr-2 mb-2 p-button"
-                type="submit" >Buscar</button>
+            <p-button label="Buscar" icon="pi pi-search" styleClass="p-button p-button-info mr-2 mb-2 "></p-button>
         </div>
 
         <div class="col-12 md:col-2">
-            <button
-                class="p-element p-ripple p-button-secondary mr-2 mb-2 p-button"
-                type="button"
-                type="button" > Limpiar</button>
+            <p-button label="Limpiar" styleClass="p-button p-button-secondary mr-2 mb-2 " type="button" ></p-button>
         </div>
-        
+      
 
 
     </div>
@@ -65,103 +60,10 @@
   </p-panel>
 </div>
 
-<!-- <div class="col-12">
-  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
-
-  <p-panel header="Tabla de Categorias" 
-   [toggleable]="true" class="line-height-3 m-0"> 
-      <p-table [rows]="5" 
-
-      [value]="categoria"
-      [loading]="loading"
-       [rowHover]="true"
-      styleClass="p-datatable-gridlines" 
-      [scrollable]="true"      >
-
-      <ng-template pTemplate="header">
-        <tr>     
-          <th class="HeaderTh">
-            Id
-          </th>     
-          <th class="HeaderTh">
-            Nombre
-          </th>   
-             <th class="HeaderTh">
-            Imagen 
-          </th>
-                       
-          <th class="HeaderTh">
-            Acciones
-          </th>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="body" let-data>
-        <tr>
-          <td class="BodyTh">
-            {{  data.id  }}
-          </td>  
-          
-          <td class="BodyTh">
-            {{  data.nombre  }}
-          </td>      
-          <td class="BodyThImg"  >
-            <img  class="imgtableimg" alt="img1" src="{{ data.imagen }}"/>
-          </td>
-            
-        
-          <td class="text-center tdacciones">
-           
-         
-
-            <button (click)="editarCategoria($event,data)" pButton icon="pi pi-user-edit"
-             tooltip="Editar"  class="p-button-info btnedit"  ></button>
-             <button (click)="cambiarestado($event,data)" 
-             pButton [icon]="data.icono" tooltipPosition="left" 
-              [title]="data.poolTip +'Categoria'"
-              class="p-button-warning btnecambiarestado"
-             ></button>
-             <button (click)="eliminarCategoria($event,data.id)" pButton icon="pi pi-trash"
-             tooltip="Eliminar"class="p-button-danger btndelete"></button>
-          
-
-          </td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="7">No se encontro Información.</td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="loadingbody">
-        <tr>
-          <td colspan="7">
-            Cargando Información de Categorias. Espere Por Favor.
-          </td>
-        </tr>
-      </ng-template>
-      </p-table>
-
-      <p-paginator   
-      #paginator
-      [first]="first" 
-      [rows]="5" 
-      [totalRecords]="totalRecord" 
-      [rowsPerPageOptions]="[5,10,25,50]"
-      [showCurrentPageReport]="true"
-      (onPageChange)="cambiarPagina($event)"
-      currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
-  
-  </p-panel>
-</div> -->
 
 <div class="col-12">
   <p-panel>
     <div class="card">
-      <!-- <p-paginator #paginator  [first]="first" [rows]="5" [totalRecords]="totalRecord" [rowsPerPageOptions]="[5,10,25,50]"
-      [showCurrentPageReport]="true"(onPageChange)="cambiarPagina($event)" ></p-paginator> -->
 
        <p-table #dt [value]="categoria" [loading]="loading" [rowHover]="true" dataKey="id" 
        [showCurrentPageReport]="true"
@@ -235,29 +137,16 @@
       <form   [formGroup]="formCategoriaEditable">
           <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
             <div class="col-12 md:col-12 imgmodal">         
-            <img [src]="lsCategoriadto.imagen"   class="imgmodal2" [alt]="lsCategoriadto.imagen" >
-
-
+            <img [src]="lsCategoriadto.imagen"   class="imgmodal2" [alt]="lsCategoriadto.nombre" >
           </div>  
-         <!-- <p-fileUpload  title="Cambiar Imagen"  class="pbutonimg" mode="basic" chooseIcon="pi-sync"
-          invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}" 
-          [headers]="httpHeaders"
-         accept="{{acceptedFiles}}"   (onSelect)="leerimagenes2($event)" [auto]="true"
-         [maxFileSize]="1000000"  chooseLabel=" " ></p-fileUpload> -->
-
 
          <input type="file" accept="{{acceptedFiles}}"
          class="p-component p-element form-control"  hidden="true"
-          id="inputFile" (change)="leerimagenes2($event)" />
+          id="inputFile" (change)="leerimagenes2($event)"   />
       
          <label role="button" for="inputFile" style="margin-left: 300px;margin-top: 1px" >
           <p-chip icon="pi pi-sync" styleClass="mr-2 custom-chip"></p-chip>
         </label>    
-
-<br>
-<br>
-<br>
-
 
                <div class="col-4 md:col-12 ">
                       <label for="txtNombredg" class="divnombre">Nombre</label>
@@ -277,7 +166,10 @@
 
   <ng-template pTemplate="footer"  >
       <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-      <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="actualizar($event)"></button>
+      <button pButton pRipple 
+      [disabled]="loadinga" label="{{(loadinga)? 'Actualizando....':'Actualizar'}}"
+      icon="pi pi-check" class="p-button-text" (click)="actualizar($event)"></button>
+      
   </ng-template>
 </p-dialog>
 
@@ -288,18 +180,6 @@
             <div *ngIf="categoria2.imagen"  class="col-12 md:col-12 imgmodal">         
                <img [src]="categoria2.imagen"   class="imgmodal1" [alt]="categoria2.imagen" >
             </div>
-            <!-- <div class="col-4 md:col-12 ">
-              <label  class="divnombre">Id</label>
-              <input type="text" pInputText placeholder="Ingrese Id"  
-              [(ngModel)]="categoria2.id" formControlName="txtId"  
-               name="categoria2.id" required />
-               <small class="ng-dirty ng-invalid" 
-               *ngIf="submitted && !categoria2.id">Ingrese Id Categoria.</small>
-
-          </div> -->
-
-
-
                   <div class="col-4 md:col-12 ">
                       <label for="txtNombredg" class="divnombre">Nombre</label>
                       <input type="text" pInputText placeholder="Ingrese Nombre"  
@@ -312,9 +192,7 @@
 
                   <div class="col-4 md:col-12 ">
                     <label for="txtImagendg" class="divnombre">Imagen</label>
-                    <!-- <input type="text" pInputText placeholder="Ingrese Url Imagen"  
-                    [(ngModel)]="categoria2.imagen" formControlName="txtImagen"  
-                     name="categoria2.imagen" required /> -->
+
                      <p-fileUpload name="file"  [maxFileSize]="1000000"
                      [multiple]="false" accept="{{acceptedFiles}}" [fileLimit]="1"
                      [headers]="httpHeaders" [previewWidth]="100"  (onSelect)="leerimagenes($event)"

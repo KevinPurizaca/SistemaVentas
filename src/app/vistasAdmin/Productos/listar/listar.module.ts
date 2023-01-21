@@ -5,7 +5,7 @@ import { ListarRoutingModule } from './listar-routing.module';
 import { ListarComponent } from './listar.component';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 
-
+//productos
 @NgModule({
   declarations: [ListarComponent],
   imports: [

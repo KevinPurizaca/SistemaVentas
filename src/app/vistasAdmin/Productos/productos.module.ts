@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProductosRoutingModule } from './productos-routing.module';
 
-
+//PRODUCTOS
 @NgModule({
   declarations: [],
   imports: [

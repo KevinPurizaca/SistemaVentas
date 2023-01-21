@@ -58,6 +58,25 @@ public post(req: any, collection: string): Observable<any> {
   );
 }
 
+public put(req: any, collection: string): Observable<any> {
+  const jsonrequest = JSON.stringify(req);
+  const url = environment.UrlBase + collection;
+
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+
+  return this.http.put<any>(url, jsonrequest, httpOptions).pipe(
+    tap((data: any) => {
+
+    }),
+    catchError(err => {
+      return this.EstatusError(err);
+    }),
+  );
+}
 
 
 

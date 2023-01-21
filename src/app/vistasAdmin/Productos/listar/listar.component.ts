@@ -151,7 +151,7 @@ export class ListarComponent implements OnInit {
     this.formBusqueda.controls['cboCategoria'].setValue(-1);    
     this.formBusqueda.controls['txtNombre'].setValue('');
 
-    this.listarProducto(this.req)
+   // this.listarProducto(this.req)
   }
 
   editProducto(event: Event,item: any){
@@ -163,59 +163,25 @@ export class ListarComponent implements OnInit {
 
   cambiarestado(event:any,item:any){
     this.lsproductodto=item;
-    console.log(item);
-    try {
-      if(item.estado == 1){
-      
-        const req={
-          id:item.id,
-          estado:0
+
+    const req={
+      id:item.id,
+      estado: (item.estado == 1 ? 0 : 1),
+          }     
+
+      this.httpCore.put(req,'Producto/ActualizarEstado').subscribe(res=>{
+        if(!res.isSuccess){
+          this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
+          return
         }
-        this.productService.cambiarestado(req).subscribe((res:any)=>{
-          // if(res.success=false){
+        this.listarProducto(this.req);
+        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
 
-          //   console.log("error");
-          //   return  
-    
-        //  }else{
-      
-            this.listarProducto(this.req)
-          //}
-        })
-     
-       
-      }
-      if(item.estado == 0){
-        const req={
-          id:item.id,
-          estado:1
-        }
-        this.productService.cambiarestado(req).subscribe((res:any)=>{
-          // if(res.success=false){
-          //   console.log("error");
-            
-          //   return  
-    
-          // }else{
+      })   
+          
+   }
 
-
-            this.listarProducto(this.req)
-
-        //  }
-        })
-       
-
-      
-        
-      }
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
   
-    
-    
-  // console.log(item);
-  }
 
 changePage(event: any) {
   this.req.indice= event.first ;
@@ -239,17 +205,13 @@ listarProducto(req:any){
 
 
     getCategorias(req:any){
-
-      this.catService.getAll(req).subscribe((res:any)=>{
+      this.httpCore.post(req,'Categorias/ListarCategoria').subscribe(res=>{
         if(!res){
-          return            
-         }
-     // this.categorias = res.data   
-     this.categorias.push({id:-1,nombre:'Seleccione'})
-     this.categorias= this.categorias.concat(res.data)
+          return
+        }
+        this.categorias.push({id:-1,nombre:'Seleccione'})
+        this.categorias= this.categorias.concat(res.data)
       })
-
-
     }
     
     getMarca(req:any){
@@ -302,7 +264,7 @@ if(this.formProductoEditable.valid){
     "stock":value.txtStockdg,
     "precio":value.txtPreciodg,
   }
-console.log(this.producto2);
+//console.log(this.producto2);
 
 this.httpCore.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
   if(!res.isSuccess){

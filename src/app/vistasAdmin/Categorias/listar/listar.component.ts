@@ -21,7 +21,8 @@ export class ListarComponent implements OnInit {
   idDialog:boolean=false;
   idDialogc:boolean=false;
   submitted: boolean = false;
-  first:number=0
+  first:number=0;
+  loadinga:boolean=false;
   
   formCategoriaEditable: FormGroup;
   formCategoriaCrear: FormGroup;
@@ -30,6 +31,8 @@ export class ListarComponent implements OnInit {
   categoria:Categoria_Producto[]=[]
   lsCategoriadto!:Categoria_Producto;
   limite:number=5;
+
+  urlimagen:any;
 
   acceptedFiles = '.jpeg,.jpg,.png,.webp,.jfif';
  uploadedFiles: any[] = [];
@@ -53,7 +56,8 @@ export class ListarComponent implements OnInit {
     this.formCategoriaEditable = fbpe.group({
     //  txtIddg:['',[Validators.required]],
       txtNombredg: ['',[Validators.required]],
-     
+      
+      
     });
     this.formCategoriaCrear = fbpe.group({
    //   txtId:['',[Validators.required]],
@@ -61,6 +65,8 @@ export class ListarComponent implements OnInit {
      
      
     });
+
+    this.listarCategoria(this.req)
    }
 
   req={
@@ -70,13 +76,12 @@ export class ListarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listarCategoria(this.req)
+
   }
 
 
   listarCategoria(req:any){
-    this.httpCore.post(req,'Categorias/Listar').subscribe(res=>{
-      //console.log(res);
+    this.httpCore.post(req,'Categorias/ListarCategoria').subscribe(res=>{
       this.categoria = res.data;
       this.loading= false;
       this.totalRecord = res.totalregistro;
@@ -86,8 +91,9 @@ export class ListarComponent implements OnInit {
 
   editarCategoria(event: Event,item: any){
     this.lsCategoriadto =item;
-    let value = item
-
+   // let value = item
+    this.urlimagen = item.imagen,
+   
     this.submitted = false;
     this.idDialog = true;
   }
@@ -97,7 +103,7 @@ export class ListarComponent implements OnInit {
     this._confirmationService.confirm({
       key: 'deleteCategoria',
       target: event.target || new EventTarget(),
-      message: 'Desea eliminar el Categoria?',
+      message: 'Desea eliminar la Categoria?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
           if (item > 0) {
@@ -163,52 +169,83 @@ export class ListarComponent implements OnInit {
     this.idDialogc = false;
   }
 
-actualizar(event:any){
+async actualizar(event:any){
 
   this.submitted = true;
   this.idDialog = true;
-  let value = this.formCategoriaEditable.value
-   for (let c in this.formCategoriaEditable.controls) {
-    this.formCategoriaEditable.controls[c].markAsTouched();
-}
+  this.loadinga=true;
 
 if(this.formCategoriaEditable.valid){
+  let file= this.uploadedFiles[0];
+
+  
+  let url = this.lsCategoriadto.imagen
+if(this.lsCategoriadto.imagen == this.urlimagen){
+
   this.categoria2={
     "id":this.lsCategoriadto.id,
-    "nombre": value.txtNombredg,
-   "imagen": this.lsCategoriadto.imagen 
-  
-  }
-  console.log("cat2",this.categoria2);
+    "nombre":this.lsCategoriadto.nombre ,
+   "imagen": url     
+  } 
 
+this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+if(!res.isSuccess)
+{
+  this.loadinga=false;
+  this.idDialog = true; 
+  this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' +res.innerException});
+  return   
+}
+this.submitted = false;
+this.idDialog = false; 
+this.loadinga=false;
+this.listarCategoria(this.req)
+this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
 
-  this.categoriaService.update(this.categoria2).subscribe((res:any) => {
-      if(res.success=false){
-        this.idDialog = true; 
-        this.messageService.add({
-          key: 'tst',
-          severity: 'error',
-          summary: 'Error Message',
-          detail:
-              res.message + ' ' + res.innerException,
-      });
-        return  
+})
 
-      }else{
-        this.submitted = false;
-        this.idDialog = false; 
-        this.listarCategoria(this.req)
-        this.messageService.add({
-          key: 'tst',
-          severity: 'info',
-          summary: 'Confirmado',
-          detail:
-              res.message
-      });
-      }
+}
+else if(this.lsCategoriadto.imagen != this.urlimagen){
+
+  this.firebase.subirImagen("Categoria/",this.lsCategoriadto.nombre,file).then((url:any)=>
+  {
+     if(url){
+      this.categoria2={
+        "id":this.lsCategoriadto.id,
+        "nombre":this.lsCategoriadto.nombre ,
+       "imagen": url     
+      } 
+    
+  this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+    if(!res.isSuccess)
+    {
+      this.loadinga=false;
+      this.idDialog = true; 
+      this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' +res.innerException});
+      return   
     }
+    this.submitted = false;
+    this.idDialog = false; 
+    this.loadinga=false;
+    this.listarCategoria(this.req)
+    this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+ 
+  })
+     }
 
-   )
+     else{
+      this.loadinga=false;
+      this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:'Error al Subir la Imagen a Firebase.'});
+  }
+ }
+  )
+
+}
+else{
+  this.loadinga=false;
+  this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:'Error XD.'});
+
+}
 
 }
   }
@@ -235,47 +272,32 @@ if(this.formCategoriaEditable.valid){
    for (let c in this.formCategoriaCrear.controls) {
     this.formCategoriaCrear.controls[c].markAsTouched();
 }
-
 if(this.formCategoriaCrear.valid){
 
   this.loadingc=true
   this.firebase.subirImagen("Categoria/",value.txtNombre,file)
   .then((url:any)=>{
     this.categoria2={
+      "id":0,
       "nombre": value.txtNombre,
       "imagen":url
       
       }
-      this.loadingc=false
-
-      this.categoriaService.crear(this.categoria2).subscribe((res:any) => {
-        if(res.success=false){
-          
-        //  this.idDialogc = true; 
-          this.messageService.add({
-            key: 'tst',
-            severity: 'error',
-            summary: 'Error Message',
-            detail:
-                res.message + ' ' + res.innerException,
-        });
+      this.loadingc=false;
+    
+this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+        if(res.success=false){  
+          this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
           return  
   
         }else{
           this.submitted = false;
           this.idDialogc = false; 
           this.listarCategoria(this.req)
-          this.messageService.add({
-            key: 'tst',
-            severity: 'info',
-            summary: 'Confirmado',
-            detail:
-                res.message
-        });
+          this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
         }
-      }
-  
-     )
+})
+
 
 
   })
@@ -300,68 +322,32 @@ if(this.formCategoriaCrear.valid){
  }
 
  cambiarestado(event:any,item:any){
-  this.lsCategoriadto=item;
- 
-  try {
-    if(item.estado == 1){
-    
-      const req={
+  this.lsCategoriadto=item; 
+  const req={
         id:item.id,
-        estado:0
-      }
-      this.categoriaService.cambiarestado(req).subscribe((res:any)=>{
-        if(res.success=false){
-
-          console.log("error");
-          return  
-  
-        }else{
-    
-          this.listarCategoria(this.req)
-        }
-      })
-   
-     
-    }
-    if(item.estado == 0){
-      const req={
-        id:item.id,
-        estado:1
-      }
-      this.categoriaService.cambiarestado(req).subscribe((res:any)=>{
-        if(res.success=false){
-          console.log("error");
-          
-          return  
-  
-        }else{
-
-
-          this.listarCategoria(this.req)
-
-        }
-      })
-     
-    }
-  } catch (error) {
-    console.log(`Error: ${error}`);
+        estado: (item.estado == 1 ? 0 : 1),
   }
+  this.httpCore.post(req,'Categorias/ActualizarEstado').subscribe(res=>{
+        if(!res.isSuccess){
+          this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
+          return
+        }
+        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
+        this.listarCategoria(this.req)
+      })   
+    
 }
 
 
 leerimagenes2(event:any){
-
-  this.uploadedFiles.splice(event.target.files);
-  for(let file of event.target.files) {
-    this.extraerBase64(file).then((imagen: any) => {
-        this.lsCategoriadto.imagen = imagen.base
-        this.uploadedFiles.push(imagen.base);
-     });
- 
-  //  console.log(this.uploadedFiles);
-}
-
-this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+   this.uploadedFiles.splice(event.target.files);
+    for(let file of event.target.files) {
+      this.extraerBase64(file).then((imagen: any) => {
+          this.lsCategoriadto.imagen = imagen.base
+          this.uploadedFiles.push(file);
+          
+      });
+  }
 }
 
 extraerBase64 = async ($event: any) =>

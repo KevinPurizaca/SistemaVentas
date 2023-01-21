@@ -31,7 +31,6 @@ import { MessageService } from 'primeng/api';
     AuthModule, 
     SharedModule,
     TabMenuModule,
-//    AngularFireStorageModule
 
   ],
   providers: [

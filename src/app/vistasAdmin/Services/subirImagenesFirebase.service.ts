@@ -20,7 +20,7 @@ constructor() { }
 metadata = {
   contentType: 'image/jpeg'
 };
-async subirImagen(path:string ,nombre:string, file:any){  
+async subirImagen(path:string,nombre:any, file:any){  
   try {
     //const storageRef=ref(this.storage,path+nombre)
    // const uploadTask = uploadBytesResumable(storageRef, file, this.metadata);

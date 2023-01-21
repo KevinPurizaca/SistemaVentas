@@ -103,5 +103,9 @@
         }
       }
     }
-  }
+  },  
+    "defaultProject": "pcbyte",
+    "cli": {
+      "analytics": false
+    }
 }
