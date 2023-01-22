@@ -68,8 +68,8 @@ export class ListarComponent implements OnInit {
 
   }
   producto:Producto[]=[]
-  categorias:Categoria_Producto[]=[]
-  marca:Marcaproducto[]=[]
+  categorias:ComboModel[]=[]
+  marca:ComboModel[]=[]
   proveedor:Proveedor[]=[]
 
   lsproductodto!:Producto;

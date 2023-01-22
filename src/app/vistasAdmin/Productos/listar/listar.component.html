@@ -110,6 +110,7 @@
 
       <ng-template pTemplate="header">
           <tr>
+            <th  style="min-width:8rem;">Codigo</th>
               <th  pSortableColumn="nombre" style="min-width:20rem">Nombre<p-sortIcon field="nombre"></p-sortIcon></th>
               <th  style="min-width:8rem;justify-content: center;">Imagen</th>
               <th  style="min-width:8rem;justify-content: center;">Imagen2</th>
@@ -126,6 +127,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-data>
           <tr>
+            <td style="min-width:8rem">{{data.vCodigo}}</td>
               <td style="min-width:20rem">{{data.nombre}}</td>
               <td style="min-width:8rem;justify-content: center;">
                 <img src="{{ data.img1 }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.nombre" width="80" height="70" class="shadow-4" />
@@ -150,6 +152,9 @@
     
                 <button (click)="editProducto($event,data)"pButton icon="pi pi-file-edit" 
                         title="Editar"class="p-button-info btnedit" >
+                </button>
+                <button pButton icon="pi pi-eye" 
+                title="Ver Descripcion"class="p-button-info btnedit" >
                 </button>
                  
                 <button (click)="cambiarestado($event,data)"pButton [icon]="data.icono"

@@ -18,12 +18,8 @@
     <div class="usuario">
         <span class="span p-input-icon-left">
             <i class="pi pi-user"></i>
-            <input type="text" pInputText 
-            [pattern]="emailPattern"   
-            [(ngModel)]="correo"
-            aria-describedby="email" 
-            formControlName="correo"
-            placeholder="Ingrese Correo">         
+            <input type="text" pInputText [pattern]="emailPattern" [(ngModel)]="req.correo" aria-describedby="email" 
+            formControlName="correo" placeholder="Ingrese Correo">         
 
         </span>
 
@@ -35,10 +31,7 @@
       <div class="usuario">
         <span class="p-input-icon-left">
             <i class="pi pi-lock"></i>
-            <input type="text" pInputText 
-                     
-            name="password" formControlName="password"
-            placeholder="Ingrese Contraseña">         
+            <input type="text" pInputText  [(ngModel)]="req.password" name="password" formControlName="password" placeholder="Ingrese Contraseña">         
         </span>       
  
     </div>  

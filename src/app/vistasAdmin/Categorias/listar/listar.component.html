@@ -1,5 +1,5 @@
 <div class="col-12">
-  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+  <p-toast key="tst"   [baseZIndex]="99999" ></p-toast>
 
   <p-panel header="Busqueda de Categorias" [collapsed]="false" [toggleable]="true" class="line-height-3 m-0"> 
     <form  >
@@ -66,13 +66,14 @@
     <div class="card">
 
        <p-table #dt [value]="categoria" [loading]="loading" [rowHover]="true" dataKey="id" 
-       [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros" 
-       [rows]="5" [paginator]="true"#paginator [first]="first"  >       
+       [showCurrentPageReport]="true" [rows]="5" 
+       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros " 
+        [paginator]="true"#paginator [first]="first"  >       
       
         <ng-template pTemplate="header">
             <tr>
                 <th class="ml-2">#</th>
+                <th class="ml-2">Codigo</th>
                 <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th> 
                 <th style="min-width:6rem" pSortableColumn="imagen" >Imagen</th>
                 <th pFrozenColumn  alignFrozen="right">Acciones</th>
@@ -81,6 +82,7 @@
         <ng-template pTemplate="body" let-data>
             <tr>
               <td class="ml-3">{{data.id}}</td>
+              <td class="ml-3">{{data.vCodigo}}</td>
                 <td style="min-width:15rem">{{data.nombre}}</td>     
                 <td style="min-width:6rem;justify-content: center;">
                   <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
@@ -135,8 +137,10 @@
 <p-dialog [(visible)]="idDialog" [style]="{width: '400px'}" header="Detalle Categoria" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content" >
       <form   [formGroup]="formCategoriaEditable">
-          <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
-            <div class="col-12 md:col-12 imgmodal">         
+         
+        <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
+            
+          <div class="col-12 md:col-12 imgmodal">         
             <img [src]="lsCategoriadto.imagen"   class="imgmodal2" [alt]="lsCategoriadto.nombre" >
           </div>  
 

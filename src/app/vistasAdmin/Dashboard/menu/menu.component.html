@@ -27,7 +27,15 @@
             <span *ngIf="collapsed"class="sidenav-link-text">{{data.label}}</span>
             </a>
 -->
-
+          <!-- ***********************MANTENIMIENTO DETALLES PRODUCTOS****************-->       
+          <a [routerLink]="[data.routeLinkDetalleProducto]" class="sidenav-nav-link" 
+          routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact:true}"
+          >
+              <i class="sidenav-link-icon" [class]="data.iconDetalleProducto"></i>
+          <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelDetalleProducto}}</span>
+          </a>
+          
             <!-- ***********************MANTENIMIENTO PRODUCTOS****************-->
             <a [routerLink]="[data.routeLinkProductos]" class="sidenav-nav-link"
             routerLinkActive="active"
@@ -100,14 +108,7 @@
             <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelMarca}}</span>
             </a>
 
-             <!-- ***********************MANTENIMIENTO DETALLES PRODUCTOS****************-->       
-             <a [routerLink]="[data.routeLinkDetalleProducto]" class="sidenav-nav-link" 
-             routerLinkActive="active"
-              [routerLinkActiveOptions]="{exact:true}"
-             >
-                 <i class="sidenav-link-icon" [class]="data.iconDetalleProducto"></i>
-             <span *ngIf="collapsed"class="sidenav-link-text">{{data.labelDetalleProducto}}</span>
-             </a>
+   
          
                <!-- ***********************MANTENIMIENTO ESTADISTICAS****************      
                <a [routerLink]="[data.routeLinkEstadisticas]" class="sidenav-nav-link" 

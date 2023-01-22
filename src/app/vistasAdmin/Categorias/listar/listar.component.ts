@@ -54,16 +54,10 @@ export class ListarComponent implements OnInit {
 
     
     this.formCategoriaEditable = fbpe.group({
-    //  txtIddg:['',[Validators.required]],
-      txtNombredg: ['',[Validators.required]],
-      
-      
+      txtNombredg: ['',[Validators.required]],     
     });
     this.formCategoriaCrear = fbpe.group({
-   //   txtId:['',[Validators.required]],
       txtNombre: ['',[Validators.required]],
-     
-     
     });
 
     this.listarCategoria(this.req)
@@ -74,11 +68,7 @@ export class ListarComponent implements OnInit {
     limite:100,
     estado:-1
   }
-
-  ngOnInit() {
-
-  }
-
+  ngOnInit() {}
 
   listarCategoria(req:any){
     this.httpCore.post(req,'Categorias/ListarCategoria').subscribe(res=>{
@@ -87,7 +77,6 @@ export class ListarComponent implements OnInit {
       this.totalRecord = res.totalregistro;
     })
   }
-
 
   editarCategoria(event: Event,item: any){
     this.lsCategoriadto =item;
@@ -159,9 +148,7 @@ export class ListarComponent implements OnInit {
    
     this.listarCategoria(this.req);
     this.first = event.first;
-  }
-
- 
+  } 
 
   hideDialog(){
     this.idDialog = false;
@@ -267,7 +254,7 @@ else{
 
   async crearCategoria(){
   this.submitted = true;
-  let file= this.uploadedFiles[0]
+  let file= this.uploadedFiles[0];
   let value = this.formCategoriaCrear.value
    for (let c in this.formCategoriaCrear.controls) {
     this.formCategoriaCrear.controls[c].markAsTouched();
@@ -296,30 +283,12 @@ this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
           this.listarCategoria(this.req)
           this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
         }
-})
-
-
-
-  })
- 
-
-  
-
-  
+      })
+  }) 
   }
 
  }
 
- async subirImagen(){
-  let value = this.formCategoriaCrear.value
-  let file= this.uploadedFiles[0]
-  console.log(file);
-  this.firebase.subirImagen("Categoria/",value.txtNombre,file)
-  .then(url=>{
-
-    console.log("Url Imagen",url);
-  })
- }
 
  cambiarestado(event:any,item:any){
   this.lsCategoriadto=item; 
@@ -332,7 +301,7 @@ this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
           this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
           return
         }
-        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
+        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message,life:1000 ,closable:false });
         this.listarCategoria(this.req)
       })   
     

@@ -24,148 +24,59 @@
                 <label class="label-filter-text">Nombre</label>
                 <input type="text" pInput placeholder="Nombre Producto" 
                 class="p-inputtext p-component p-element">
-              </div>             
+              </div> 
+                            
+              <div class="col-4 md:col-3">
+                <label class="label-filter-text">Nombre</label>
+                <input type="text" pInput placeholder="Nombre Producto" 
+                class="p-inputtext p-component p-element">
+              </div> 
+
+              <div class="col-fixed md:col-1"  >   
+                <p-button icon="pi pi-file-excel" styleClass="p-button-success mr-2" pTooltip="Descargar Excel" 
+                 tooltipPosition="bottom"></p-button>    
+              </div>  
+
+              <div class="col-2 md:col-2"  > 
+                 <p-button label="Agregar"(click)="crear()" styleClass="p-button-raised mr-2 p-button-help"></p-button>
+              </div>  
+              <div class="col-12 md:col-5"></div>
+              <div class="col-12 md:col-2" >
+                <p-button label="Buscar" (onClick)="buscar()" styleClass="p-button  p-button-info mr-2 mb-2 p-button"></p-button>               
+              </div>
+              
+              <div class="col-12 md:col-2" >
+               <p-button label="Limpiar" (click)="limpiarFormulario()"
+               styleClass="p-button  p-button-secondary mr-2 mb-2 p-button"></p-button>
+              </div>  
+
           </div>
       </form>
   </p-panel>
 </div>
 
-<!-- <div class="col-12">
-  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
-
-  <p-panel header="Tabla de Usuarios"  
-  
-   [toggleable]="true" class="line-height-3 m-0"> 
-      <p-table [rows]="5" 
-      [globalFilterFields]="['nombre','usuarios.nombre','usuarios.apellidos','apellidos']"
-      [value]="usuarios"
-      [loading]="loading"
-       [rowHover]="true"
-      styleClass="p-datatable-gridlines" 
-      [scrollable]="true" 
-      responsiveLayout="scroll">
-
-      <ng-template pTemplate="header">
-        <tr>       
-          <th class="HeaderTh">
-            Nombre
-          </th>   
-          <th class="HeaderTh">
-            Apellidos
-          </th>   
-          <th class="HeaderTh">
-            Correo
-          </th>  
-          <th class="HeaderTh">
-            Direccion
-          </th>  
-          <th class="HeaderTh">
-            Rol
-          </th> 
-          <th class="HeaderTh">
-            Telefono
-          </th>       
-          <th class="HeaderTh">
-            Imagen 
-          </th>
-                       
-          <th class="HeaderTh" pFrozenColumn  alignFrozen="right">
-            Acciones
-          </th>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="body" let-data>
-        <tr>
-          <td class="BodyTh">
-            {{  data.nombre  }}
-          </td>        
-          <td class="BodyTh">
-            {{  data.apellidos  }}
-          </td>   
-          <td class="BodyTh">
-            {{  data.correo  }}
-          </td>  
-          <td class="BodyTh">
-            {{  data.direccion  }}
-          </td>        
-          <td class="BodyTh">
-            {{  data.rol  }}
-          </td>       
-          <td class="BodyTh">
-            {{  data.telefono  }}
-          </td>  
-          <td class="BodyThImg"  >
-            <img  width="100" class="shadow-4"  alt="img1" src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'"/>
-          </td>
-            
-        
-          <td class="text-center tdacciones" pFrozenColumn  alignFrozen="right">
-           
-          
-
-            <button (click)="eliminarUsuario()" pButton icon="pi pi-user-edit" tooltip="Editar"
-              class="p-button-danger btnedit"
-             ></button>
-
-             <button (click)="editarUsuario()" pButton icon="pi pi-trash" tooltip="Eliminar"
-             class="p-button-danger btndelete" ></button>
-           <p-confirmPopup key="deleteUsuario{{data.iid_usuario}}"></p-confirmPopup>
-
-           <button (click)="cambiarEstado($event,data)" 
-           pButton [icon]="data.icono" tooltipPosition="left" 
-            [title]="data.poolTip +'Usuario'"
-            class="p-button-warning btnecambiarestado"
-           ></button>
-          </td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="7">No se encontro Información.</td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="loadingbody">
-        <tr>
-          <td colspan="7">
-            Cargando Información de Usuarios. Espere Por Favor.
-          </td>
-        </tr>
-      </ng-template>
-      </p-table>
-
-      <p-paginator    
-      [rows]="5" 
-      [totalRecords]="totalRecord" 
-      [rowsPerPageOptions]="[5,10,25,50]"
-      [showCurrentPageReport]="true"
-      (onPageChange)="cambiarPagina()"
-      currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
-  
-  </p-panel>
-</div> -->
 
 <div class="col-12">
-  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+
  <p-panel  header="Administrar Usuarios"    
  [toggleable]="true" class="line-height-3 m-0">
   <div class="card">
 
-    <p-table #dt [value]="usuarios" [rows]="5" [paginator]="true" 
-             [tableStyle]="{'min-width': '75rem'}" [loading]="loading"
-             [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {{limite}} de {{totalRecord}} Registros" 
-             [showCurrentPageReport]="true" [scrollable]="true" responsiveLayout="scroll">       
+    <p-table #dt [value]="usuarios" [loading]="loading" [rowHover]="true" dataKey="id" 
+    [showCurrentPageReport]="true" [rows]="5" [scrollable]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} Registros " 
+     [paginator]="true"#paginator [first]="first" >       
       
         <ng-template pTemplate="header">
             <tr>
                 <th class="ml-2" >#</th>
+                <th style="min-width:8rem" >Codigo</th>
                 <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>              
                 <!-- <th pSortableColumn="apellidos" style="min-width:10rem">Apellidos <p-sortIcon field="Apellidos"></p-sortIcon></th> -->
                 <th pSortableColumn="correo" style="min-width:18rem">Correo<p-sortIcon field="correo"></p-sortIcon></th>
-                <th pSortableColumn="direccion" style="min-width:8rem">Dirección <p-sortIcon field="direccion"></p-sortIcon></th>
+                <!-- <th pSortableColumn="direccion" style="min-width:8rem">Dirección <p-sortIcon field="direccion"></p-sortIcon></th> -->
                 <th pSortableColumn="rol" style="min-width:10rem">Rol <p-sortIcon field="rol"></p-sortIcon></th>
+                <th style="min-width:10rem">Nro. Documento</th>
                 <th pSortableColumn="telefono" style="min-width:8rem">Telefono <p-sortIcon field="telefono"></p-sortIcon></th>
                 <th style="min-width:6rem" pSortableColumn="imagen" >Imagen</th>
                 <th pFrozenColumn  alignFrozen="right">Acciones</th>
@@ -174,11 +85,13 @@
         <ng-template pTemplate="body" let-data>
             <tr>
               <td class="ml-3">{{data.id}}</td>
+              <td style="min-width:8rem">{{data.vCodigo}}</td>
                 <td style="min-width:15rem">{{data.nombres}}</td>
                         <!-- <td style="min-width:10rem">{{data.apellidos}}</td> -->
                 <td style="min-width:18rem">{{data.correo}}</td>
-                <td style="min-width:8rem">{{data.direccion}}</td>
+                <!-- <td style="min-width:8rem;justify-content: center;">{{data.direccion}}</td> -->
                 <td style="min-width:10rem">{{data.rol}}</td>
+                <td style="min-width:10rem;justify-content: center;" >{{data.dni}}</td>
                 <td style="min-width:8rem;justify-content: center;" >{{data.telefono}}</td>
                 <td style="min-width:6rem;justify-content: center;">
                   <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
@@ -214,3 +127,123 @@
 </div>
  </p-panel>
 </div>
+
+<p-dialog [(visible)]="idDialog" [style]="{width: '850px'}" header="Detalle Usuario" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content" >
+    <form   [formGroup]="formUsuario">
+        <div class="p-fluid p-formgrid grid" style="margin-top:5px;"> 
+
+          <div class="col-12 md:col-12" *ngIf="editar">
+                <div class="col-12 md:col-12 imgmodal">         
+                  <img [src]="lsUsuariodto.imagen"   class="imgmodal2" [alt]="lsUsuariodto.nombre" >
+                  <label role="button" for="inputFile" style="width:5px; margin-top: 35px" >
+                    <!-- <p-chip icon="pi pi-sync" styleClass="mr-2 custom-chip"></p-chip> -->
+                    <p-chip icon="pi pi-sync"  styleClass="mt-8 mb-0 custom-chip"></p-chip>
+                  </label>  
+                 
+                </div>  
+      
+              <input type="file" accept="{{acceptedFiles}}"
+              class="p-component p-element form-control"  hidden="true"
+                id="inputFile" (change)="leerimagenes2($event)"   />
+            
+              <label role="button" for="inputFile" style="margin-left: 520px;margin-top: 1px" >
+                <!-- <p-chip icon="pi pi-sync" styleClass="mr-2 custom-chip"></p-chip> -->
+              </label>  
+          </div>
+
+
+
+
+                <div class="col-12 md:col-4 ">
+                    <label  >Nombre</label>
+                    <input type="text" pInputText placeholder="Ingrese Nombre"  
+                      formControlName="txtNombre" [(ngModel)]="reqEditar.nombre"
+                     name="producto.nombre" required autocomplete="off" />
+                     <small class="ng-dirty ng-invalid"  *ngIf="submitted && !reqEditar.nombre">Ingrese Nombres.</small>
+                     <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtNombre')?.hasError('pattern')">Ingrese solo
+                      Letras</small>
+                </div>
+                <div class="col-12 md:col-4 ">
+                  <label  >Apellido Paterno</label>
+                  <input type="text" pInputText placeholder="Ingrese Nombre"      
+                  formControlName="txtApellidosP"    [(ngModel)]="reqEditar.apellidos_p"      
+                  required autocomplete="off" />
+                   <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.apellidos_p">Ingrese Apellidos Paternos.</small>
+                   <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtApellidosP')?.hasError('pattern')">Ingrese solo
+                    Letras</small>
+              </div>
+              <div class="col-12 md:col-4 ">
+                <label  >Apellido Materno</label>
+                <input type="text" pInputText placeholder="Ingrese Nombre"  autocomplete="off" 
+                formControlName="txtApellidosM" [(ngModel)]="reqEditar.apellidos_m" required/>
+                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.apellidos_m">Ingrese Apellidos Maternos.</small>
+                 <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtApellidosM')?.hasError('pattern')">Ingrese solo
+                  Letras</small>
+            </div>
+            <div class="col-12 md:col-6">
+              <label  >Correo Electronico:</label>
+              <input type="text" pInputText placeholder="Ingrese Nombre"      
+              formControlName="txtCorreo" [(ngModel)]="reqEditar.correo"   [readonly]="editar"      
+            required autocomplete="off" />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.correo">Ingrese Correo.</small>
+            <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtCorreo')?.hasError('pattern')">Ingrese un Correo Valido.</small>
+          </div>
+
+          <div class="col-12 md:col-3">
+            <label  >Nro. Telefonico:</label>
+            <input type="text" pInputText placeholder="Ingrese Nombre"      
+            formControlName="txtTelefono" [(ngModel)]="reqEditar.telefono"        
+          required autocomplete="off" [maxlength]="9" />
+          <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.correo">Ingrese Telefono.</small>
+          <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtTelefono')?.hasError('pattern')">Ingrese solo Numeros.</small>
+        </div>
+
+        <div class="col-12 md:col-3">
+          <label  >Nro. Documento:</label>
+          <input type="text" pInputText placeholder="Ingrese Nro. Documento"  
+          formControlName="txtNroDocumento"[(ngModel)]="reqEditar.dni"                
+        required autocomplete="off" [maxlength]="8"/>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.dni">Ingrese Dni.</small>
+        <small class="ng-dirty ng-invalid" *ngIf="formUsuario.get('txtTelefono')?.hasError('pattern')">Ingrese solo Numeros.</small>
+      </div>
+
+                <div class="col-12 md:col-4">
+                  <label >Rol</label>
+                  <p-dropdown optionValue="id" optionLabel="nombre" [(ngModel)]="reqEditar.idRol"
+                  formControlName="cboRol" [options]="lstTipoUsuario" [readonly]="editar" placeholder="Seleccione" ></p-dropdown>
+                   <small class="ng-dirty ng-invalid"  *ngIf="submitted && !reqEditar.idRol">Seleccion Rol de Usuario.</small>
+              </div>
+                          
+              <div class="col-12 md:col-4" *ngIf="visibleEditar">
+                <label>Contraseña:</label>
+              <p-password  [toggleMask]="true" weakLabel="Basica" mediumLabel="Mediana" strongLabel="Segura :)" formControlName="txtContraseña" [(ngModel)]="reqEditar.password" autocomplete="off"></p-password>
+              <small class="ng-dirty ng-invalid" *ngIf="submitted && !reqEditar.password">Ingrese Contraseña.</small>
+            </div>
+
+            <div class="col-4 md:col-12" *ngIf="visibleEditar">
+              <label for="txtImagendg" class="mb-2">Imagen</label>
+
+               <p-fileUpload name="file"  [maxFileSize]="1000000"
+               [multiple]="false" accept="{{acceptedFiles}}" [fileLimit]="1"
+               [headers]="httpHeaders" [previewWidth]="100" (onSelect)="leerimagenes($event)"
+               invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}"  [customUpload]="true" [showUploadButton]="false" 
+               chooseLabel="Seleccionar Imagen" cancelLabel="Cancelar" uploadLabel="Subir" chooseIcon="pi pi-file" [showCancelButton]="false"
+            ></p-fileUpload>
+         
+     
+          </div>
+
+
+
+
+        </div>
+    </form>
+  
+</ng-template>
+
+<ng-template pTemplate="footer"  >
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple  [disabled]="loadinga" label="{{(loadinga)? 'Guardando....':'Guardar'}}" icon="pi pi-check" class="p-button-text" (click)="guardarUsuario()"></button>
+</ng-template>
+</p-dialog>

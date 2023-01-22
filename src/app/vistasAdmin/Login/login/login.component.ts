@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   loginForm:FormGroup;
 
   nombre:string="";
-  correo:string="k@gmail.com";
+  correo:string="";
   password:string="";
 
 
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     ) {
     this.loginForm = fb.group({
       correo: ['',[Validators.pattern(this.emailPattern),Validators.required]],
-      password: ['123456',[Validators.required]],
+      password: ['',[Validators.required]],
 
   });
 
@@ -77,7 +77,7 @@ req={
       correo :this.req.correo,
       password : sha512.sha512(this.req.password).toString().toUpperCase(),
     }
-    console.log(_req)
+   // console.log(_req)
     // let _req = {
     //   userName: this.req.userName,
     //   password: sha512.sha512(this.req.password).toString().toUpperCase(),
@@ -91,10 +91,10 @@ req={
         if (!res.isSuccess) {
           this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message',
                                  detail: res.message + ' ' + (res.messageExeption == null ? '' : res.messageExeption) });
-                                 console.log(_req)
+                              //   console.log(_req)
           return;
         }
-        console.log(_req)
+  //      console.log(_req)
         this.router.navigate(['Productos/Listar'])
       },
         (error: any) => {

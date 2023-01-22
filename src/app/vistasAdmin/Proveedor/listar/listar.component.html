@@ -45,6 +45,7 @@
         <ng-template pTemplate="header">
             <tr>
                 <th class="ml-2" >#</th>
+                <th style="min-width:8rem">Codigo</th>
                 <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>              
                 <!-- <th pSortableColumn="apellidos" style="min-width:10rem">Apellidos <p-sortIcon field="Apellidos"></p-sortIcon></th> -->
                 <th pSortableColumn="correo" style="min-width:18rem">Correo<p-sortIcon field="correo"></p-sortIcon></th>
@@ -58,6 +59,7 @@
         <ng-template pTemplate="body" let-data>
             <tr>
               <td class="ml-3">{{data.id}}</td>
+              <td style="min-width:8rem">{{data.vCodigo}}</td>
                 <td style="min-width:15rem">{{data.nombrecompletos}}</td>
                         <!-- <td style="min-width:10rem">{{data.apellidos}}</td> -->
                 <td style="min-width:18rem">{{data.correo}}</td>

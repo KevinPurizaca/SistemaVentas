@@ -43,7 +43,7 @@ export const navbarData =[
 
     routeLinkDetalleProducto:'DetalleProductos/Listar',
     iconDetalleProducto:'fal fa-laptop',
-    labelDetalleProducto:'Detalle Producto',
+    labelDetalleProducto:'Tabla Auxiliar',
 }
 
 

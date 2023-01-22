@@ -103,3 +103,33 @@
     border-width: 0 0 1px 0;
     padding: 0.3rem 0.3rem;
 }
+:host ::ng-deep .p-chip.custom-chip {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+}
+
+.imgmodal{
+    
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+.imgmodal1{
+    width: 200px;
+    height: 120px;
+    margin: 0;
+    margin-bottom: 0;
+    border-radius: 15px;
+   
+    padding: 0;
+}
+.imgmodal2{
+    width: 300px;
+    height: 140px;
+    margin: 0;
+    margin-bottom: 10px;
+    border-radius: 15px;   
+    padding: 0;
+}
