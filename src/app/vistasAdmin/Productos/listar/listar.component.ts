@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService,ConfirmationService  } from 'primeng/api';
-import { Producto } from 'src/app/vistasAdmin/Model/Producto';
+import { DescripcionProducto, Producto } from 'src/app/vistasAdmin/Model/Producto';
 import { ProductoService } from 'src/app/vistasAdmin/Services/Producto.service';
 import { Categoria_Producto } from '../../Model/Categoria_Producto';
 
@@ -14,6 +14,8 @@ import { PrimeNGConfig } from 'primeng/api';
 import { ProveedoresService } from '../../Services/Proveedores.service';
 import { Proveedor } from '../../Model/Proveedor';
 import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFirebase.service';
 
 @Component({
   selector: 'app-listar',
@@ -27,32 +29,43 @@ import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 
 })
 export class ListarComponent implements OnInit {
- 
+ //ESTE ES EL PROYECTO
   letrasPattern="[a-zA-Z ]*"
   numerosPattern="[0-9]*"
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
-  letrasynros="[a-zA-Z0-9 ]*"
+  letrasynros="[a-zA-Z0-9 ]*";
+  letrasyNrosPattern = "[ a-zA-ZáéíóúÁÉÍÓÚ0-9-._%%$·!&/()=·]*";
 
+  acceptedFiles = '.jpeg,.jpg,.png,.webp,.jfif';
+  uploadedFiles: any[] = [];
+  httpHeaders: any;
 
   formBusqueda: FormGroup;
   formProductoEditable: FormGroup;
-  loading=true
-  bloqueado:boolean=true;
-  pi:string=""
-  loadingbtn=[false]
+  formDescripcion: FormGroup;
 
+  loading:boolean=true;
+  loadinga:boolean=false;
+
+  bloqueado:boolean=true;
+  pi:string="";
+  
   cboCategoria:ComboModel[]=[];
 
-  totalRecord:number=0
-  first:number=0
-  stock=""
+  totalRecord:number=0;
+  first:number=0;
+  stock="";
   idDialog:boolean=false;
+  idDialogDesc:boolean=false;
+  idDialogP:boolean=false;
+
   submitted: boolean = false;
   limite:number=5;
 
+  verSubirImagenes:boolean=true;
   req={
     indice:0,
-    limite:5,
+    limite:500,
     estado:-1,
     nombre:'',
     id_marca:-1,
@@ -73,6 +86,7 @@ export class ListarComponent implements OnInit {
   proveedor:Proveedor[]=[]
 
   lsproductodto!:Producto;
+  lstDescripcion:DescripcionProducto=new DescripcionProducto;
   lstecatcb: ComboModel[]=[];
   lstmarcacb:ComboModel[]=[]
 
@@ -81,6 +95,9 @@ export class ListarComponent implements OnInit {
   constructor(
     fb: FormBuilder,
     fbpe:FormBuilder,
+    fbdesc:FormBuilder,
+    private firebaseService:SubirImagenesFirebaseService,
+    private sanitizer: DomSanitizer,
     private httpCore:HttpCoreService,
     private productService:ProductoService,
     private catService:CategoriaproductoService,
@@ -103,7 +120,6 @@ export class ListarComponent implements OnInit {
     });
 
     this.formProductoEditable = fbpe.group({
-
       cboCategoriadg: [-1],
       cboMarcadg: [-1],
       cboProveedordg: [-1],
@@ -111,6 +127,18 @@ export class ListarComponent implements OnInit {
       txtPreciodg: ['',[Validators.required,Validators.pattern(this.numerosPattern)]],
       txtStockdg: ['',[Validators.required,Validators.pattern(this.numerosPattern)]],
     });
+    this.formDescripcion = fbdesc.group({
+      txtResumenDesc: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_1: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_2: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_3: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_4: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_5: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_6: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_7: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+      txtDesc_8: ['',[Validators.required,Validators.pattern(this.letrasyNrosPattern)]],
+
+    })
 
   }
 
@@ -151,6 +179,7 @@ export class ListarComponent implements OnInit {
     this.formBusqueda.controls['cboCategoria'].setValue(-1);    
     this.formBusqueda.controls['txtNombre'].setValue('');
 
+   // this.idDialogP=true;
    // this.listarProducto(this.req)
   }
 
@@ -158,6 +187,7 @@ export class ListarComponent implements OnInit {
     this.lsproductodto =item;   
     this.submitted = false;
     this.idDialog = true;
+    this.verSubirImagenes=false;
    
   }
 
@@ -194,7 +224,6 @@ changePage(event: any) {
 listarProducto(req:any){
  
   this.httpCore.post(req,'Producto/Listar').subscribe((res)=>{
-
     //console.log(res);
     this.producto = res.data  
     this.loading= false;
@@ -243,60 +272,119 @@ listarProducto(req:any){
     hideDialog() {
       this.idDialog = false;
       this.submitted = false;
+      this.idDialogDesc=false;
+      this.idDialogP=false;
   }  
 
-  actualizarProducto(req: any){
+  async pruebaFirebaseMultiple(){
+    // let contador=0;
+     var nombre="nombreProducto";
+     let img1:any;
+     let img2:any;    
+     let img3:any;
+     var urls:any=[];
+     var req={   
+       img1:'',
+       img2:'',
+       img3:''
+     }
+     for(let i=0;i<this.uploadedFiles.length;i++){
+       this.firebaseService.subirImagen("extras/",nombre+i,this.uploadedFiles[i]).then((url:any)=>{ 
+         urls.push(url);    
+         if(urls.length==this.uploadedFiles.length)
+         {
+           req.img1= urls[0];
+           req.img2=urls[1];
+           req.img3= urls[2];
+         }
+   
+       }
+     )
+     }
+   }
+
+actualizarProducto(req: any){
 
   this.submitted = true;
   this.idDialog = true;
+  var urls:any=[];
+
+
    let value = this.formProductoEditable.value
    for (let c in this.formProductoEditable.controls) {
     this.formProductoEditable.controls[c].markAsTouched();
 }
 
 if(this.formProductoEditable.valid){
+  this.loadinga=true;
   this.producto2={
     "id":this.lsproductodto.id,
     "nombre": value.txtNombredg,
-    "id_categoria":value.cboCategoriadg,//falta
+    "id_categoria":value.cboCategoriadg,
     "id_marca":value.cboMarcadg,
-    "id_proveedor":value.cboProveedordg,//falta
+    "id_proveedor":value.cboProveedordg,
     "stock":value.txtStockdg,
     "precio":value.txtPreciodg,
+    "imagen1":'',
+    "imagen2":'',
+    "imagen3":'',
   }
-//console.log(this.producto2);
+  if(this.lsproductodto.id ==0){
+    
+    for(let i=0;i<this.uploadedFiles.length;i++){
+      this.firebaseService.subirImagen("Productos/",value.txtNombredg+"_"+i,this.uploadedFiles[i]).then((url:any)=>{ 
+        urls.push(url);    
+        if(urls.length==this.uploadedFiles.length)
+        {
+          this.producto2.imagen1= urls[0];
+          this.producto2.imagen2=urls[1];
+          this.producto2.imagen3= urls[2];
+          this.httpCore.post(this.producto2,'Producto/Crear/').subscribe(res=>{
+            if(!res.isSuccess){
+              this.idDialog = true; 
+              this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
+              this.loadinga=false;
+              return
+            }
+            this.loadinga=false;
+            this.submitted = false;
+            this.idDialog = false; 
+            this.listarProducto(this.req)
+            this.messageService.add({ key: 'tst',  severity: 'info',  summary: 'Confirmado', detail:res.message });
+          })
+        }
+  
+      }
+    )
+    }
 
-this.httpCore.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
-  if(!res.isSuccess){
-    this.idDialog = true; 
-    this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
-    return  
+
+  }
+  else if(this.lsproductodto.id !=0){
+
+    this.httpCore.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
+      if(!res.isSuccess){
+        this.idDialog = true; 
+        this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
+        this.loadinga=false;
+        return  
+      }
+      else{
+        this.submitted = false;
+        this.idDialog = false; 
+        this.loadinga=false;
+        this.listarProducto(this.req)
+        this.messageService.add({ key: 'tst',  severity: 'info',  summary: 'Confirmado', detail:res.message });
+      }
+    })
   }
   else{
-    this.submitted = false;
-    this.idDialog = false; 
-    this.listarProducto(this.req)
-    this.messageService.add({ key: 'tst',  severity: 'info',  summary: 'Confirmado', detail:res.message });
+    this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: 'Error al momento de Registrar o Actualizar', });
+
   }
-})
 
-  // this.productService.update(this.producto2).subscribe((res:any) => {
-  //     if(res.success=false){
 
-  //     }else{
-  //       this.submitted = false;
-  //       this.idDialog = false; 
-  //       this.listarProducto(this.req)
-  //       this.messageService.add({
-  //         key: 'tst',
-  //         severity: 'info',
-  //         summary: 'Confirmado',
-  //         detail:
-  //             res.message
-  //     });
-  //     }
-  //   }
-  //  )
+
 }
 }
 
@@ -354,5 +442,57 @@ eliminarProducto(event: Event, item: any) {
   });
 }
 
+registrarProducto(){
+  this.idDialog=true;
+  this.lsproductodto={};
+  this.lsproductodto.id = 0;
+  this.verSubirImagenes=true;
+
 }
+
+verDescripcion(item:any){
+  console.log(item);
+  this.lstDescripcion= item;
+  this.idDialogDesc=true;
+}
+
+
+
+borrarImagenes(event:any){
+ 
+  let file = event.file;
+  var indice = this.uploadedFiles.indexOf(file); 
+  this.uploadedFiles.splice(indice, 1);   
+
+}
+leerimagenes(event:any){
+  //this.uploadedFiles.splice(event.files);
+  for(let file of event.files) {
+            this.uploadedFiles.push(file);   
+}
+
+}
+extraerBase64 = async ($event: any) =>
+new Promise((resolve, reject) => {
+  try {
+    const unsageImg = window.URL.createObjectURL($event);
+    const image = this.sanitizer.bypassSecurityTrustUrl(unsageImg);
+    const reader = new FileReader();
+
+    reader.readAsDataURL($event);
+    reader.onload = () => {
+      resolve({
+        base: reader.result,
+      });
+    };
+    reader.onerror = (error) => {
+      resolve({
+        base: null,
+      });
+    };
+  } catch (error) {}
+});
+
+}
+
 

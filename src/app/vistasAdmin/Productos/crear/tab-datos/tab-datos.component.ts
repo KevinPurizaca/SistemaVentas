@@ -179,9 +179,9 @@ export class TabDatosComponent implements OnInit {
 
   guardarProductos(producto:Producto){
     let file = this.uploadedFiles
-    producto.img1=file[0],
-    producto.img2=file[1],
-    producto.img3=file[2]
+    // producto.img1=file[0],
+    // producto.img2=file[1],
+    // producto.img3=file[2]
     this.temporal.agregarProductoTemporal(producto)
     console.log("Producto Agregado Exitosamente",producto);
   }
