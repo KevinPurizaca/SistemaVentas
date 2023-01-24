@@ -5,7 +5,7 @@ export class Producto {
     marca?:string="";
     nombre?:string="";
   //  resumen?:string="";
-    precio?:string="";
+    precio?:Float32Array;
     imagen1?:string="";
     imagen2?:string="";
     imagen3?:string="";

@@ -31,7 +31,7 @@ import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFireba
 export class ListarComponent implements OnInit {
  //ESTE ES EL PROYECTO
   letrasPattern="[a-zA-Z ]*"
-  numerosPattern="[0-9]*"
+  numerosPattern="[0-9.,]*"
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   letrasynros="[a-zA-Z0-9 ]*";
   letrasyNrosPattern = "[ a-zA-ZáéíóúÁÉÍÓÚ0-9-._%%$·!&/()=·]*";
@@ -49,7 +49,7 @@ export class ListarComponent implements OnInit {
 
   bloqueado:boolean=true;
   pi:string="";
-  
+  nombreProducto:string=""
   cboCategoria:ComboModel[]=[];
 
   totalRecord:number=0;
@@ -63,6 +63,8 @@ export class ListarComponent implements OnInit {
   limite:number=5;
 
   verSubirImagenes:boolean=true;
+  vCarpetaFirebase:string="";
+  vCarpetaFirebaseMarca:string="";
   req={
     indice:0,
     limite:500,
@@ -204,8 +206,9 @@ export class ListarComponent implements OnInit {
           this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
           return
         }
+        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message,life:1000 ,closable:false });
+
         this.listarProducto(this.req);
-        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message });
 
       })   
           
@@ -224,7 +227,6 @@ changePage(event: any) {
 listarProducto(req:any){
  
   this.httpCore.post(req,'Producto/Listar').subscribe((res)=>{
-    //console.log(res);
     this.producto = res.data  
     this.loading= false;
     this.totalRecord = res.totalregistro;
@@ -235,7 +237,7 @@ listarProducto(req:any){
 
     getCategorias(req:any){
       this.httpCore.post(req,'Categorias/ListarCategoria').subscribe(res=>{
-        if(!res){
+        if(!res.isSuccess){
           return
         }
         this.categorias.push({id:-1,nombre:'Seleccione'})
@@ -245,7 +247,8 @@ listarProducto(req:any){
     
     getMarca(req:any){
       this.marService.getAll(req).subscribe((res:any)=>{
-        if(!res){
+    
+        if(!res.isSuccess){
           return
         }
      //   let result = data.filter(x=> x.estado ==1)
@@ -303,6 +306,17 @@ listarProducto(req:any){
      }
    }
 
+nombreCategoria(event:any,item:any){
+    let value = event.value;
+    let filtro = item.filter((x:any)=> x.id == value);
+    this.vCarpetaFirebase = filtro[0].vCarpetaFirebase;
+}
+nombreMarca(event:any,item:any){
+  let value = event.value;
+  let filtro = item.filter((x:any)=> x.id == value);
+  this.vCarpetaFirebaseMarca = filtro[0].vCarpetaFirebase;
+}
+
 actualizarProducto(req: any){
 
   this.submitted = true;
@@ -330,9 +344,11 @@ if(this.formProductoEditable.valid){
     "imagen3":'',
   }
   if(this.lsproductodto.id ==0){
-    
+    let url =this.vCarpetaFirebase+"/"+this.vCarpetaFirebaseMarca+ "/"+value.txtNombredg+"/"+value.txtNombredg;
+  
+
     for(let i=0;i<this.uploadedFiles.length;i++){
-      this.firebaseService.subirImagen("Productos/",value.txtNombredg+"_"+i,this.uploadedFiles[i]).then((url:any)=>{ 
+      this.firebaseService.subirImagen("Productos/"+url,value.txtNombredg+"_"+i,this.uploadedFiles[i]).then((url:any)=>{ 
         urls.push(url);    
         if(urls.length==this.uploadedFiles.length)
         {
@@ -451,22 +467,62 @@ registrarProducto(){
 }
 
 verDescripcion(item:any){
-  console.log(item);
-  this.lstDescripcion= item;
   this.idDialogDesc=true;
+  this.nombreProducto= ''+item.nombre;
+  const req={
+    id:item.iidDesc,
+    indice:0,
+    limite:100
+  }
+  this.httpCore.post(req,'Producto/ListarDescripcion').subscribe(res=>{
+    if(!res.isSuccess){
+      return
+    }
+    this.lstDescripcion = res.data[0];
+    // this.lstDescripcion.vResumen = res.data[0].vResumen; 
+    // this.lstDescripcion.vDesc_1 = res.data[0].vDesc_1;
+    // this.lstDescripcion.vDesc_2 = res.data[0].vDesc_2;
+    // this.lstDescripcion.vDesc_3 = res.data[0].vDesc_3;
+    // this.lstDescripcion.vDesc_4 = res.data[0].vDesc_4;
+    // this.lstDescripcion.vDesc_5 = res.data[0].vDesc_5;
+    // this.lstDescripcion.vDesc_6 = res.data[0].vDesc_6;
+    // this.lstDescripcion.vDesc_7 = res.data[0].vDesc_7;
+    // this.lstDescripcion.vDesc_8 = res.data[0].vDesc_8;
+
+  })
+}
+editarRegistrarDescripcion(){
+  const req={
+    iidDesc:this.lstDescripcion.iidDesc,
+    vResumen:this.lstDescripcion.vResumen,
+    vDesc_1:this.lstDescripcion.vDesc_1 ,
+    vDesc_2:this.lstDescripcion.vDesc_2,
+    vDesc_3:this.lstDescripcion.vDesc_3,
+    vDesc_4:this.lstDescripcion.vDesc_4,
+    vDesc_5:this.lstDescripcion.vDesc_5,
+    vDesc_6:this.lstDescripcion.vDesc_6,
+    vDesc_7:this.lstDescripcion.vDesc_7,
+    vDesc_8:this.lstDescripcion.vDesc_8,
+  }
+  this.httpCore.post(req,'Producto/CrearDescripcion').subscribe(res=>{
+    if(!res.isSuccess){
+      this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' +res.innerException});
+      return
+    }
+    this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+
+
+  })
 }
 
 
-
-borrarImagenes(event:any){
- 
+borrarImagenes(event:any){ 
   let file = event.file;
   var indice = this.uploadedFiles.indexOf(file); 
   this.uploadedFiles.splice(indice, 1);   
 
 }
 leerimagenes(event:any){
-  //this.uploadedFiles.splice(event.files);
   for(let file of event.files) {
             this.uploadedFiles.push(file);   
 }

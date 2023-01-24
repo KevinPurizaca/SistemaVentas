@@ -153,7 +153,7 @@
                 <button (click)="editProducto($event,data)"pButton icon="pi pi-file-edit" 
                         title="Editar"class="p-button-info btnedit" >
                 </button>
-                <button pButton icon="pi pi-eye" (click)="verDescripcion(data.iidDesc)"
+                <button pButton icon="pi pi-eye" (click)="verDescripcion(data)"
                 title="Ver Descripcion"class="p-button-info btnedit" >
                 </button>
                  
@@ -194,8 +194,8 @@
                   <div class="col-12 md:col-4">
                     <label for="cboCategoriadg">Categoria</label>
                     <p-dropdown formControlName="cboCategoriadg"
-                    [(ngModel)]="lsproductodto.id_categoria" 
-                    [options]="categorias" optionValue="id"
+                    [(ngModel)]="lsproductodto.id_categoria" [filter]="true"
+                    [options]="categorias" optionValue="id" (onChange)="nombreCategoria($event,categorias)"
                     optionLabel="nombre" placeholder="Seleccione"
                      ></p-dropdown>
                      <small class="ng-dirty ng-invalid" 
@@ -206,8 +206,8 @@
               <div class="col-12 md:col-4">
                 <label for="cboMarcadg">Marca</label>
                 <p-dropdown formControlName="cboMarcadg" 
-                [options]="marca"  optionValue="id"
-                optionLabel="nombre" 
+                [options]="marca"  optionValue="id"[filter]="true"
+                optionLabel="nombre"  (onChange)="nombreMarca($event,marca)"
                 [(ngModel)]="lsproductodto.id_marca" 
                 placeholder="Seleccione"></p-dropdown>
                 <small class="ng-dirty ng-invalid" 
@@ -246,15 +246,9 @@
                     [multiple]="true" accept="{{acceptedFiles}}" [fileLimit]="3"
                     [headers]="httpHeaders" [previewWidth]="100" (onRemove)="borrarImagenes($event)"  (onSelect)="leerimagenes($event)"
                     invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}"  [customUpload]="true" [showUploadButton]="false" 
-                    chooseLabel="Seleccionar Imagen" cancelLabel="Cancelar" uploadLabel="Subir" chooseIcon="pi pi-file" [showCancelButton]="false"
+                    chooseLabel="Seleccionar Imagen 1,2,3" cancelLabel="Cancelar" uploadLabel="Subir" chooseIcon="pi pi-file" [showCancelButton]="false"
                  >
-                
-                 <!-- <ng-template pTemplate="content">
-                  <ul *ngIf="uploadedFiles.length">
-                      <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                  </ul>
-              </ng-template> -->
-                </p-fileUpload>   
+                    </p-fileUpload>   
                   </div>
 
 
@@ -271,10 +265,11 @@
   </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="idDialogDesc" [closable]="false" [style]="{width: '850px',height: '850px'}" header="Descripción Producto" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="idDialogDesc" [closable]="false" [style]="{width: '850px',height: '850px'}" header="Descripción: {{nombreProducto}}" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content" >
       <form   [formGroup]="formDescripcion">
           <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
+            <!-- <h5>Descripcion del Producto: SILLA GAMBYTE PREMIUM ( VC03- 19- GBE ) GAMING | N</h5> -->
 
             <div class="col-4 md:col-12 ">
                       <label for="txtResumenDesc" class="divnombre">Resumen</label>
@@ -298,13 +293,13 @@
                 <div class="col-12 md:col-6">
                   <label for="txtDesc_3">Descripcion 3:</label>
                   <input type="text" pInputText placeholder="Descripcion 3" autocomplete="off"
-                  formControlName="txtDesc_3" [(ngModel)]="lstDescripcion.vDesc_1" required/>
+                  formControlName="txtDesc_3" [(ngModel)]="lstDescripcion.vDesc_3" required/>
               </div>
 
               <div class="col-12 md:col-6">
                 <label for="txtDesc_4">Descripcion 4:</label>
                 <input type="text" pInputText placeholder="Descripcion 4" autocomplete="off"
-                 formControlName="txtDesc_4" [(ngModel)]="lstDescripcion.vDesc_2"   required/>
+                 formControlName="txtDesc_4" [(ngModel)]="lstDescripcion.vDesc_4"   required/>
               </div>
               <div class="col-12 md:col-6">
                 <label for="txtDesc_5">Descripcion 5:</label>
@@ -315,12 +310,12 @@
             <div class="col-12 md:col-6">
               <label for="txtDesc_6">Descripcion 6:</label>
               <input type="text" pInputText placeholder="Descripcion 6" autocomplete="off"
-               formControlName="txtDesc_6" [(ngModel)]="lstDescripcion.vDesc_2"   required/>
+               formControlName="txtDesc_6" [(ngModel)]="lstDescripcion.vDesc_6"   required/>
             </div>
             <div class="col-12 md:col-6">
               <label for="txtDesc_7">Descripcion 7:</label>
               <input type="text" pInputText placeholder="Descripcion 7" autocomplete="off"
-              formControlName="txtDesc_7" [(ngModel)]="lstDescripcion.vDesc_1" required/>
+              formControlName="txtDesc_7" [(ngModel)]="lstDescripcion.vDesc_7" required/>
           </div>
 
           <div class="col-12 md:col-6">
@@ -336,7 +331,7 @@
 
   <ng-template pTemplate="footer"  >
       <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-      <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" ></button>
+      <button pButton pRipple label="Guardar" icon="pi pi-check" (click)="editarRegistrarDescripcion()" class="p-button-text" ></button>
   </ng-template>
 </p-dialog>
 
