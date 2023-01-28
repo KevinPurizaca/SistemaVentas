@@ -28,65 +28,6 @@
     height: 10px;
 }
 
-/* .BodyThs{
-    min-width: 8rem;
-    height: 90px;
-    justify-content: right;
-}
-.HeaderThs{
-    min-width:8rem;    
-    height:58px;    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.BodyThr{
-    min-width: 17rem;
-    height: 90px;
-    font-size: 13px;
-    padding: 0;
-    margin: 0;
-}
-.HeaderThr{
-    min-width: 17rem;    
-    height:58px;    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.BodyThc{
-    min-width: 12rem;
-    height: 90px;
-    justify-content: right;
-}
-.HeaderThc{
-    min-width: 9.5rem;9.5   
-    height:58px;    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.BodyThsm{
-    min-width: 8rem;
-    height: 90px;  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px; 
-}
-.BodyTh td{
-    font-size: 5px;
-}
-
-.HeaderTh{
-    min-width: 18rem;    
-    height:58px;    
-    display: flex;
-    align-items: center;
-    justify-content: center;
- 
-}
- */
 .stock{
     min-width:10rem;
 }
@@ -174,3 +115,9 @@
     justify-content: left;
 }
 
+:host ::ng-deep .row-accessories {
+    background-color: rgba(0,0,0,.15) !important;
+}
+:host ::ng-deep .row-accessoriesacciones {
+    background-color: white !important;
+}

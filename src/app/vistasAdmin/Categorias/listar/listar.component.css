@@ -136,3 +136,7 @@
     background: var(--primary-color);
     color: var(--primary-color-text);
 }
+
+:host ::ng-deep .row-accessories {
+    background-color: rgba(0,0,0,.15) !important;
+}

@@ -14,7 +14,8 @@ import { DashboardModule } from './vistasAdmin/Dashboard/dashboard.module';
 
 
 import { TabMenuModule } from 'primeng/tabmenu';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { UtilService } from './core/util/util.services';
 @NgModule({
   declarations: [
     AppComponent,  
@@ -35,7 +36,7 @@ import { MessageService } from 'primeng/api';
   ],
   providers: [
     //{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    MessageService,
+    MessageService,ConfirmationService,UtilService
   ],
   bootstrap: [AppComponent],
   

@@ -11,7 +11,7 @@ const analytics = getAnalytics(app);
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  
   title = 'pcbyte';
 
 }

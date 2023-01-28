@@ -136,3 +136,8 @@
 .pbutonimg{
     margin-left:270px;
 }
+
+
+:host ::ng-deep .row-accessories {
+    background-color: rgba(0,0,0,.15) !important;
+}

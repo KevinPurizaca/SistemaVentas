@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PrimeNGConfig, MessageService, ConfirmationService } from 'primeng/api';
 import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
+import { UtilService } from 'src/app/core/util/util.services';
 import { Marcaproducto } from '../../Model/MarcaProducto';
 import { MarcaproductoService } from '../../Services/marcaproducto.service';
 import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFirebase.service';
@@ -18,8 +19,13 @@ export class ListarComponent implements OnInit {
 
   loading=true;
   loadingc=false;
+  loadinge:boolean=false;
+
   idDialog:boolean=false;
   idDialogc:boolean=false;
+
+  urlImagen:string="";
+
   submitted: boolean = false;
   first:number=0;
   totalRecord:number=0;
@@ -39,6 +45,7 @@ export class ListarComponent implements OnInit {
   req={
     indice:0,
     limite:5,
+    iexportar:0,
     estado:-1
   }
 
@@ -52,6 +59,7 @@ export class ListarComponent implements OnInit {
     private _confirmationService: ConfirmationService,
     private firebase:SubirImagenesFirebaseService,
     private sanitizer: DomSanitizer,
+    private _utilService :UtilService,
   ) {
 
     this.formMarcaEditable = fbpe.group({
@@ -93,7 +101,7 @@ export class ListarComponent implements OnInit {
     for(let file of event.target.files) {
       this.extraerBase64(file).then((imagen: any) => {
           this.lsMarcadto.imagen = imagen.base
-          this.uploadedFiles.push(imagen.base);
+          this.uploadedFiles.push(file);
        });
       }
   this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
@@ -118,7 +126,8 @@ export class ListarComponent implements OnInit {
     this.idDialogc = true;
   }
 
-  crearMarca(){  this.submitted = true;
+async  crearMarca(){  
+    this.submitted = true;
   let file= this.uploadedFiles[0]
   let value = this.formMarcaCrear.value
    for (let c in this.formMarcaCrear.controls) {
@@ -129,60 +138,101 @@ if(this.formMarcaCrear.valid){
   this.loadingc=true
   this.firebase.subirImagen("Marcas/",value.txtNombre,file)
   .then((url:any)=>{
-    this.marca2={
-  //    "id":value.txtId,
-      "nombre": value.txtNombre,
-      "imagen":url
-      
+    const req={
+      iidMarca:0,
+      vNombre: value.txtNombre,
+      vImagen:url      
       }
       this.loadingc=false
-
-      this.marcaService.crear(this.marca2).subscribe((res:any) => {
-        if(res.success=false){
-          
-          this.idDialogc = true; 
-          this.messageService.add({
-            key: 'tst',
-            severity: 'error',
-            summary: 'Error Message',
-            detail:
-                res.message + ' ' + res.innerException,
-        });
-          return  
-  
-        }else{
-          this.submitted = false;
-          this.idDialogc = false; 
-          this.loadData(this.req)
-          this.messageService.add({
-            key: 'tst',
-            severity: 'info',
-            summary: 'Confirmado',
-            detail:
-                res.message
-        });
-        }
+      this.httpCoreService.post(req,'Marca/RegistrarMarca').subscribe(res=>{
+      if(!res.isSuccess){
+        this.idDialogc = true; 
+        this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
+        return
       }
-  
-     )
-
-
-  })
- 
-
-  
-
-  
-  }
-
-
-
+      this.submitted = false;
+      this.idDialogc = false; 
+      this.loadData(this.req)
+      this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+      });
+    })
+    }
 }
+
 cambiarImg(){}
 
-  actualizar(event:any){}
+async actualizar(event:any){
+  this.submitted = true;
 
-  eliminarMarca(event:Event,item:any){
+  if(this.formMarcaEditable.valid){
+    let file = this.uploadedFiles[0];
+    this.loadinge=true;
+    this.submitted = false;
+
+    let url = this.urlImagen;
+
+    if(this.lsMarcadto.imagen == url )
+    {
+        const req ={          
+          iidMarca:this.lsMarcadto.id ,
+          vNombre: this.lsMarcadto.nombre ,
+          vImagen:url     
+        }
+        this.httpCoreService.post(req,'Marca/RegistrarMarca').subscribe(res=>{
+          if(!res.isSuccess){
+            this.idDialog = true; 
+            this.loadinge=false;
+            this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
+            return
+          }
+          this.submitted = false;
+          this.loadinge=false;
+          this.idDialog = false; 
+          this.loadData(this.req)
+          this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+          });
+    }
+    else if(this.lsMarcadto.imagen != url)
+    {
+      
+      this.firebase.subirImagen("Marcas/",this.lsMarcadto.vCarpetaFirebase,file).then((url:any)=>
+      {
+         if(url){
+          const req ={  
+            iidMarca:this.lsMarcadto.id ,
+            vNombre: this.lsMarcadto.nombre ,
+            vImagen:url     
+          }
+        //  console.log('req: ', req);
+      this.httpCoreService.post(req,'Marca/RegistrarMarca').subscribe(res=>{
+        if(!res.isSuccess)
+        {
+          this.loadinge=false;
+          this.idDialog = true; 
+          this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' +res.innerException});
+          return   
+        }
+        this.submitted = false;
+        this.idDialog = false; 
+        this.loadinge=false;
+        this.loadData(this.req)
+        this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+     
+      })
+         }
+    
+         else{
+          this.loadinge=false;
+          this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:'Error al Subir la Imagen a Firebase.'});
+      }
+     }
+      )
+    }
+  }
+
+}
+
+eliminarMarca(event:Event,item:any){
     this._confirmationService.confirm({
       key: 'deleteMarca',
       target: event.target || new EventTarget(),
@@ -237,9 +287,8 @@ cambiarImg(){}
   
   editarMarca(event:any,item:any){
     this.lsMarcadto =item;
-    let value = item
-
-    this.submitted = false;
+    this.urlImagen = item.imagen;
+     this.submitted = false;
     this.idDialog = true;
   }
 
@@ -313,4 +362,41 @@ new Promise((resolve, reject) => {
     };
   } catch (error) {}
 });
+
+exportarExcel(){
+  this.loadinge=true;
+  const req = {
+    iidDescuento:-1,
+
+    iexportar:1,
+    iidAprobador:-1,
+    pageNum:0,
+    pageSize:1000000,
+}
+this.httpCoreService.post(req,'/BandejaDescuentos/GetListHistorialBandejaDescuentos').subscribe(res => {
+    
+  if (!res.isSuccess) {
+    this.loadinge=false;
+    this.messageService.add({key:'tst',severity:'error', summary:'Error', detail:'Algo Fallo', icon: 'pi-file'});
+  return;
+  }    
+     let file = res.file;
+     if (file != null && file != undefined) {
+         let p_file = this._utilService.base64ToArrayBuffer(file);
+         var blob = new Blob([p_file], {
+             type: 'application/vnd.ms-excel'
+         });
+         var link = document.createElement("a");
+         link.href = window.URL.createObjectURL(blob);
+         link.download = res.informacion;
+         link.click();
+         this.loadinge=false;
+     } else {
+         
+         this.loadinge=false;
+         this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail:res.message +' '+ res.innerException });return;
+     }
+     
+ })
+}
 }

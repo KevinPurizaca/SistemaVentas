@@ -16,6 +16,7 @@ import { Proveedor } from '../../Model/Proveedor';
 import { HttpCoreService } from 'src/app/core/services/HttpCore.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFirebase.service';
+import { UtilService } from 'src/app/core/util/util.services';
 
 @Component({
   selector: 'app-listar',
@@ -24,8 +25,7 @@ import { SubirImagenesFirebaseService } from '../../Services/subirImagenesFireba
   styles: [`
 
 `
-],
-  providers: [ConfirmationService ]
+]
 
 })
 export class ListarComponent implements OnInit {
@@ -46,6 +46,7 @@ export class ListarComponent implements OnInit {
 
   loading:boolean=true;
   loadinga:boolean=false;
+  loadinge:boolean=false;
 
   bloqueado:boolean=true;
   pi:string="";
@@ -63,13 +64,14 @@ export class ListarComponent implements OnInit {
   limite:number=5;
 
   verSubirImagenes:boolean=true;
-  vCarpetaFirebase:string="";
+  vCarpetaFirebaseCategoria:string="";
   vCarpetaFirebaseMarca:string="";
   req={
     indice:0,
     limite:500,
     estado:-1,
     nombre:'',
+    iexportar:0,
     id_marca:-1,
     id_categoria:-1,
     id_proveedor:-1
@@ -100,7 +102,7 @@ export class ListarComponent implements OnInit {
     fbdesc:FormBuilder,
     private firebaseService:SubirImagenesFirebaseService,
     private sanitizer: DomSanitizer,
-    private httpCore:HttpCoreService,
+    private _httpCoreService:HttpCoreService,
     private productService:ProductoService,
     private catService:CategoriaproductoService,
     private marService:MarcaproductoService,
@@ -108,6 +110,8 @@ export class ListarComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private messageService:MessageService,
     private _confirmationService: ConfirmationService,
+
+    private _utilService :UtilService,
   ) { 
 
 
@@ -201,7 +205,7 @@ export class ListarComponent implements OnInit {
       estado: (item.estado == 1 ? 0 : 1),
           }     
 
-      this.httpCore.put(req,'Producto/ActualizarEstado').subscribe(res=>{
+      this._httpCoreService.put(req,'Producto/ActualizarEstado').subscribe(res=>{
         if(!res.isSuccess){
           this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
           return
@@ -226,7 +230,7 @@ changePage(event: any) {
 
 listarProducto(req:any){
  
-  this.httpCore.post(req,'Producto/Listar').subscribe((res)=>{
+  this._httpCoreService.post(req,'Producto/Listar').subscribe((res)=>{
     this.producto = res.data  
     this.loading= false;
     this.totalRecord = res.totalregistro;
@@ -236,7 +240,7 @@ listarProducto(req:any){
 
 
     getCategorias(req:any){
-      this.httpCore.post(req,'Categorias/ListarCategoria').subscribe(res=>{
+      this._httpCoreService.post(req,'Categorias/ListarCategoria').subscribe(res=>{
         if(!res.isSuccess){
           return
         }
@@ -309,7 +313,7 @@ listarProducto(req:any){
 nombreCategoria(event:any,item:any){
     let value = event.value;
     let filtro = item.filter((x:any)=> x.id == value);
-    this.vCarpetaFirebase = filtro[0].vCarpetaFirebase;
+    this.vCarpetaFirebaseCategoria = filtro[0].vCarpetaFirebase;
 }
 nombreMarca(event:any,item:any){
   let value = event.value;
@@ -329,6 +333,10 @@ actualizarProducto(req: any){
     this.formProductoEditable.controls[c].markAsTouched();
 }
 
+   // let url =this.vCarpetaFirebaseCategoria+"/"+this.vCarpetaFirebaseMarca+ "/"+value.txtNombredg+"/"+value.txtNombredg;
+    //console.log('url: ', url);
+    //value.txtNombredg,
+   // console.log(' value.txtNombredg,: ',  value.txtNombredg,);
 if(this.formProductoEditable.valid){
   this.loadinga=true;
   this.producto2={
@@ -344,18 +352,20 @@ if(this.formProductoEditable.valid){
     "imagen3":'',
   }
   if(this.lsproductodto.id ==0){
-    let url =this.vCarpetaFirebase+"/"+this.vCarpetaFirebaseMarca+ "/"+value.txtNombredg+"/"+value.txtNombredg;
+    let url =this.vCarpetaFirebaseCategoria+"/"+this.vCarpetaFirebaseMarca+ "/"+value.txtNombredg+"/";
   
-
+let contador =0;
+this.uploadedFiles.reverse();
     for(let i=0;i<this.uploadedFiles.length;i++){
-      this.firebaseService.subirImagen("Productos/"+url,value.txtNombredg+"_"+i,this.uploadedFiles[i]).then((url:any)=>{ 
+      contador = contador +1;
+      this.firebaseService.subirImagen("Productos/"+url,"imagen_"+contador,this.uploadedFiles[i]).then((url:any)=>{ 
         urls.push(url);    
         if(urls.length==this.uploadedFiles.length)
         {
           this.producto2.imagen1= urls[0];
           this.producto2.imagen2=urls[1];
           this.producto2.imagen3= urls[2];
-          this.httpCore.post(this.producto2,'Producto/Crear/').subscribe(res=>{
+          this._httpCoreService.post(this.producto2,'Producto/Crear/').subscribe(res=>{
             if(!res.isSuccess){
               this.idDialog = true; 
               this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
@@ -378,7 +388,7 @@ if(this.formProductoEditable.valid){
   }
   else if(this.lsproductodto.id !=0){
 
-    this.httpCore.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
+    this._httpCoreService.post(this.producto2,'Producto/Actualizar/').subscribe(res=>{
       if(!res.isSuccess){
         this.idDialog = true; 
         this.messageService.add({key: 'tst', severity: 'error', summary: 'Error Message', detail: res.innerException, });
@@ -474,7 +484,7 @@ verDescripcion(item:any){
     indice:0,
     limite:100
   }
-  this.httpCore.post(req,'Producto/ListarDescripcion').subscribe(res=>{
+  this._httpCoreService.post(req,'Producto/ListarDescripcion').subscribe(res=>{
     if(!res.isSuccess){
       return
     }
@@ -504,7 +514,7 @@ editarRegistrarDescripcion(){
     vDesc_7:this.lstDescripcion.vDesc_7,
     vDesc_8:this.lstDescripcion.vDesc_8,
   }
-  this.httpCore.post(req,'Producto/CrearDescripcion').subscribe(res=>{
+  this._httpCoreService.post(req,'Producto/CrearDescripcion').subscribe(res=>{
     if(!res.isSuccess){
       this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' +res.innerException});
       return
@@ -548,6 +558,46 @@ new Promise((resolve, reject) => {
     };
   } catch (error) {}
 });
+
+exportarExcel(){
+  this.loadinge=true;
+  const req = {
+    indice:0,
+    limite:500,
+    estado:-1,
+    iexportar:1,
+    nombre:'',
+    id_marca:-1,
+    id_categoria:-1,
+    id_proveedor:-1
+}
+
+this._httpCoreService.post(req,'Producto/Listar').subscribe(res => {
+    
+  if (!res.isSuccess) {
+    this.loadinge=false;
+    this.messageService.add({key:'tst',severity:'error', summary:'Error', detail:'Algo Fallo', icon: 'pi-file'});
+  return;
+  }    
+     let file = res.file;
+     if (file != null && file != undefined) {
+         let p_file = this._utilService.base64ToArrayBuffer(file);
+         var blob = new Blob([p_file], {
+             type: 'application/vnd.ms-excel'
+         });
+         var link = document.createElement("a");
+         link.href = window.URL.createObjectURL(blob);
+         link.download = res.informacion;
+         link.click();
+         this.loadinge=false;
+     } else {
+         
+         this.loadinge=false;
+         this.messageService.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail:res.message +' '+ res.innerException });return;
+     }
+     
+ })
+}
 
 }
 

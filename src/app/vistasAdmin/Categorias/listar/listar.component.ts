@@ -160,11 +160,13 @@ async actualizar(event:any){
 
   this.submitted = true;
   this.idDialog = true;
-  this.loadinga=true;
+
 
 if(this.formCategoriaEditable.valid){
   let file= this.uploadedFiles[0];
-
+  
+  this.submitted = false;
+  this.loadinga=true;
   
   let url = this.lsCategoriadto.imagen
 if(this.lsCategoriadto.imagen == this.urlimagen){

@@ -59,7 +59,7 @@
              
             <div class="col-fixed md:col-1"  >      
  
-                    <p-button 
+                    <p-button (onClick)="exportarExcel()" [disabled]="loadinge" 
                     icon="pi pi-file-excel" styleClass="p-button-success mr-2" 
                     pTooltip="Descargar Excel"  tooltipPosition="bottom">
                    
@@ -120,13 +120,13 @@
               <th  pSortableColumn="marca"  style="min-width:8rem;">Marca<p-sortIcon field="marca"></p-sortIcon></th>
               <th  pSortableColumn="estrellas"  style="min-width:10rem;">Clasificacion<p-sortIcon field="estrellas"></p-sortIcon></th>
               <th  pSortableColumn="vstock"  style="min-width:8rem;">Stock<p-sortIcon field="vstock"></p-sortIcon></th>
-              <th pFrozenColumn  alignFrozen="right">
+              <th  pFrozenColumn  alignFrozen="right">
                 Acciones
               </th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-data>
-          <tr>
+          <tr  [ngClass]="{'row-accessories': data.estado === 0}">
             <td style="min-width:8rem">{{data.vCodigo}}</td>
               <td style="min-width:20rem">{{data.nombre}}</td>
               <td style="min-width:8rem;justify-content: center;">
@@ -144,7 +144,7 @@
               <td  style="min-width:10rem;"><p-rating [ngModel]="data.estrellas" [readonly]="true" [cancel]="false"></p-rating></td>
               <td  style="min-width:8rem;"><span [class]="'product-badge status-' + data.vstock.toLowerCase()">{{data.vstock}}</span></td>
 
-              <td pFrozenColumn  alignFrozen="right">
+              <td [ngClass]="{'row-accessoriesacciones': data.estado === 0}" pFrozenColumn  alignFrozen="right">
 
                 <button (click)="eliminarProducto($event,data.id)" pButton icon="pi pi-trash" title="Eliminar"
                         class="p-button-danger btndelete">

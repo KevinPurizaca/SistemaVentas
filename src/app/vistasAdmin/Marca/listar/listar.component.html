@@ -35,24 +35,16 @@
         <div class="col-12 md:col-2" >      
             <div class="flex">
                 <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-success mr-2"  pTooltip="Descargar Excel" tooltipPosition="bottom">l</button>
-            </div>
-                
+            </div>               
 </div>       
-
-
-
         <div class="col-12 md:col-4"></div>      
 
         <div class="col-12 md:col-2">
-            <button
-                class="p-ripple p-element mr-2 mb-2 p-button"
-                type="submit" >Buscar</button>
+            <button class="p-ripple p-element mr-2 mb-2 p-button" type="submit" >Buscar</button>
         </div>
 
         <div class="col-12 md:col-2">
-            <button
-                class="p-element p-ripple p-button-secondary mr-2 mb-2 p-button"
-                type="button" > Limpiar</button>
+            <button class="p-element p-ripple p-button-secondary mr-2 mb-2 p-button"  type="button">Limpiar</button>
         </div>
         
 
@@ -66,112 +58,89 @@
 
 
 <div class="col-12">
-  <p-toast key="tst"[baseZIndex]="99999" ></p-toast>
+  <p-panel>
+    <div class="card">
 
-  <p-panel header="Tabla de Marca" 
-   [toggleable]="true" class="line-height-3 m-0"> 
-      <p-table [rows]="5" 
-
-      [value]="marca"
-      [loading]="loading"
-      [rowHover]="true"
-      styleClass="p-datatable-gridlines" 
-      [scrollable]="true" 
-      responsiveLayout="scroll">
-
-      <ng-template pTemplate="header">
-        <tr>     
-          <th class="HeaderTh">
-            Id
-          </th>     
-          <th class="HeaderTh">
-            Codigo
-          </th>    
-          <th class="HeaderTh">
-            Nombre
-          </th>   
-          <!-- <th class="HeaderTh">
-            Sub_Categorias 
-          </th>      -->
-          <th class="HeaderTh">
-            Imagen 
-          </th>
-                       
-          <th class="HeaderTh">
-            Acciones
-          </th>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="body" let-data>
-        <tr>
-          <td class="BodyTh">
-            {{  data.id  }}
-          </td>  
-          <td class="BodyTh">
-            {{  data.vCodigo  }}
-          </td>  
-          <td class="BodyTh">
-            {{  data.nombre  }}
-          </td>        
-          <!-- <td class="BodyTh">
-            {{  data.estado  }}
-          </td>    -->
-          <td class="BodyThImg"  >
-            <img  class="imgtableimg" alt="img1" src="{{ data.imagen }}"/>
-          </td>
+       <p-table #dt [value]="marca" [loading]="loading" [rowHover]="true" dataKey="id" 
+       [showCurrentPageReport]="true" [rows]="5" 
+        [paginator]="true"#paginator [first]="first"  >       
+      
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="ml-2">#</th>
+                <th class="ml-2">Codigo</th>
+                <th  pSortableColumn="nombre" style="min-width:15rem">Nombre <p-sortIcon field="nombre"></p-sortIcon></th> 
+                <th style="min-width:6rem" pSortableColumn="imagen" >Imagen</th>
+                <th pFrozenColumn  alignFrozen="right">Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr  [ngClass]="{'row-accessories': data.estado === 0}">
+              <td class="ml-3">{{data.id}}</td>
+              <td class="ml-3">{{data.vCodigo}}</td>
+                <td style="min-width:15rem">{{data.nombre}}</td>     
+                <td style="min-width:6rem;justify-content: center;">
+                  <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
             
+                </td>
+                <td  pFrozenColumn  alignFrozen="right">
+                 
+                      <button (click)="editarMarca($event,data)" pButton icon="pi pi-user-edit" 
+                              tooltip="Editar"  class="p-button-info btnedit" >
+                      </button>
+
+                      <button (click)="cambiarEstado($event,data)" pButton [icon]="data.icono" tooltipPosition="left" 
+                              [title]="data.poolTip +'Categoria'" class="p-button-warning btnecambiarestado">
+                      </button>
+
+                      <button (click)="eliminarMarca($event,data.id)" pButton icon="pi pi-trash"
+                              tooltip="Eliminar"class="p-button-danger btndelete">
+                      </button>
+                 </td>
+            </tr>
+        </ng-template>
         
-          <td class="text-center tdacciones">         
-            
+        <p-paginator   
+        #paginator
+        [first]="first" 
+        [rows]="5" 
+        [totalRecords]="totalRecord" 
+        [rowsPerPageOptions]="[5,10,25,50]"
+        [showCurrentPageReport]="true"
+        (onPageChange)="cambiarPagina($event)"
+        currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
 
 
-            <button (click)="editarMarca($event,data)" pButton icon="pi pi-user-edit"
-            title="Editar"  class="p-button-info btnedit"  ></button>
-            
-             <button (click)="cambiarEstado($event,data)" 
-             pButton [icon]="data.icono" tooltipPosition="left" 
-              [title]="data.poolTip +'Marca'"
-              class="p-button-warning btnecambiarestado"
-             ></button>
-            
-            <button (click)="eliminarMarca($event,data.id)" pButton icon="pi pi-trash"
-            title="Eliminar"class="p-button-danger btndelete"></button>
-            <p-confirmPopup key="deleteUsuario{{data.iid_usuario}}"></p-confirmPopup>
 
-          </td>
-        </tr>
-      </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En Total hay  {{totalRecord ? totalRecord : 0 }} Categorias.
+            </div>
+        </ng-template>
 
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="7">No se encontro Información.</td>
-        </tr>
-      </ng-template>
-
-      <ng-template pTemplate="loadingbody">
-        <tr>
-          <td colspan="7">
-            Cargando Información de Marca. Espere Por Favor.
-          </td>
-        </tr>
-      </ng-template>
-      </p-table>
-
-      <p-paginator   
-      #paginator
-      [first]="first" 
-      [rows]="5" 
-      [totalRecords]="totalRecord" 
-      [rowsPerPageOptions]="[5,10,25,50]"
-      [showCurrentPageReport]="true"
-      (onPageChange)="cambiarPagina($event)"
-      currentPageReportTemplate="Total : {{totalRecord}} registros" ></p-paginator>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7">No se encontro Información.</td>
+          </tr>
+        </ng-template>
   
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="7">
+              Cargando Información de Categorias. Espere Por Favor.
+            </td>
+          </tr>
+        </ng-template>
+    </p-table>
+
+    </div>
   </p-panel>
 </div>
 
-<p-dialog [(visible)]="idDialog" [style]="{width: '400px'}" header="Detalle Marcasda" [modal]="true" class="p-fluid">
+
+
+
+<p-dialog [(visible)]="idDialog" [style]="{width: '400px'}" header="Detalle Marca" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content" >
       <form   [formGroup]="formMarcaEditable">
           <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
@@ -180,11 +149,6 @@
 
 
           </div>  
-         <!-- <p-fileUpload  title="Cambiar Imagen"  class="pbutonimg" mode="basic" chooseIcon="pi-sync"
-          invalidFileTypeMessageDetail="Sólo se permiten ficheros {{acceptedFiles}}" 
-          [headers]="httpHeaders"  for="inputFile"
-         accept="{{acceptedFiles}}"   (onSelect)="leerimagenes2($event)" [auto]="true"
-         [maxFileSize]="1000000"  chooseLabel=" " ></p-fileUpload> -->
 
        
          <input type="file" accept="{{acceptedFiles}}"
@@ -198,8 +162,6 @@
 <br>
 <br>
 <br>
-
-
                <div class="col-4 md:col-12 ">
                       <label for="txtNombredg" class="divnombre">Nombre</label>
                       <input type="text" pInputText placeholder="Ingrese Nombre"  
@@ -218,7 +180,8 @@
 
   <ng-template pTemplate="footer"  >
       <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-      <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="actualizar($event)"></button>
+      <button pButton pRipple  label="{{(loadinge)? 'Actualizando....':'Actualizar'}}"
+      [disabled]="loadinge" icon="pi pi-check" class="p-button-text" (click)="actualizar($event)"></button>
   </ng-template>
 </p-dialog>
 
@@ -245,9 +208,6 @@
 
                   <div class="col-4 md:col-12 ">
                     <label for="txtImagendg" class="divnombre">Imagen</label>
-                    <!-- <input type="text" pInputText placeholder="Ingrese Url Imagen"  
-                    [(ngModel)]="categoria2.imagen" formControlName="txtImagen"  
-                     name="categoria2.imagen" required /> -->
                      <p-fileUpload name="file"  [maxFileSize]="1000000"
                      [multiple]="false" accept="{{acceptedFiles}}" [fileLimit]="1"
                      [headers]="httpHeaders" [previewWidth]="100"  (onSelect)="leerimagenes($event)"

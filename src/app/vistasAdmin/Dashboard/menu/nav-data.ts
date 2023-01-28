@@ -38,7 +38,7 @@ export const navbarData =[
     labelColegio:'Colegio',
 
     routeLinkMarca:'Marca/Listar',
-    iconMarca:'fa fa-graduation-cap',
+    iconMarca:'pi pi-verified',
     labelMarca:'Marca',
 
     routeLinkDetalleProducto:'DetalleProductos/Listar',
