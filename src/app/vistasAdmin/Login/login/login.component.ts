@@ -58,8 +58,8 @@ export class LoginComponent implements OnInit {
 
   
 req={
- correo:"k@gmail.com",
- password:"123456"
+ vCorreo:"k@gmail.com",
+ vPassword:"123456"
 }
 
 
@@ -74,8 +74,8 @@ req={
   onLogin(){     
 
     let _req={
-      correo :this.req.correo,
-      password : sha512.sha512(this.req.password).toString().toUpperCase(),
+      vCorreo :this.req.vCorreo,
+      vPassword : this.req.vPassword,//sha512.sha512(this.req.vPassword).toString().toUpperCase(),
     }
    // console.log(_req)
     // let _req = {
@@ -83,7 +83,7 @@ req={
     //   password: sha512.sha512(this.req.password).toString().toUpperCase(),
     //   googleToken: ''this.req.password,
     // };
-  if (!(this.req.correo == '' || this.req.correo == undefined) && !(this.req.password == '' || this.req.password == undefined)) {
+  if (!(this.req.vCorreo == '' || this.req.vCorreo == undefined) && !(this.req.vPassword == '' || this.req.vPassword == undefined)) {
       this.http.loginByEmail(_req).subscribe((res:any) => {
        // console.log(res.data[0].token);
       //  console.log(res.data.token);

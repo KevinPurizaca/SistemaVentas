@@ -29,7 +29,7 @@ export class ListarComponent implements OnInit {
   
   totalRecord=0;
   categoria:Categoria_Producto[]=[]
-  lsCategoriadto!:Categoria_Producto;
+  lsCategoriadto!:any;
   limite:number=5;
 
   urlimagen:any;
@@ -38,7 +38,7 @@ export class ListarComponent implements OnInit {
  uploadedFiles: any[] = [];
   httpHeaders: any;
 
-  categoria2:Categoria_Producto= new Categoria_Producto()
+  categoria2:any= new Categoria_Producto()
 
   constructor(
     private categoriaService:CategoriaproductoService,
@@ -64,9 +64,13 @@ export class ListarComponent implements OnInit {
    }
 
   req={
+    iidCategoria:-1,
+    vCodigo:'',
+    vNombreCategoria:'',
+    vNombre:'',
     indice:0,
     limite:100,
-    estado:-1
+    iEstado:-1
   }
   ngOnInit() {}
 
@@ -96,26 +100,16 @@ export class ListarComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
           if (item > 0) {
+
               this.categoriaService.delete(item)
                   .subscribe((res: any) => {
                       if (res.success==false) {
-                          this.messageService.add({
-                              key: 'tst',
-                              severity: 'error',
-                              summary: 'Error Message',
-                              detail:
-                                  res.messag,
-                          });
+                          this.messageService.add({ key: 'tst',severity: 'error',summary: 'Error Message',detail:res.messag,});
                           return;
                       } 
                     else {
-                          this.messageService.add({
-                              key: 'tst',
-                              severity: 'info',
-                              summary: 'Confirmado',
-                              detail:
-                              res.message 
-                          });
+                          this.messageService.add({key: 'tst',severity: 'info',summary: 'Confirmado',detail:res.message});
+                          
                           this.listarCategoria(this.req)
                       }
                   });
@@ -168,16 +162,17 @@ if(this.formCategoriaEditable.valid){
   this.submitted = false;
   this.loadinga=true;
   
-  let url = this.lsCategoriadto.imagen
+  let url = this.lsCategoriadto.vImagen;
 if(this.lsCategoriadto.imagen == this.urlimagen){
 
-  this.categoria2={
-    "id":this.lsCategoriadto.id,
-    "nombre":this.lsCategoriadto.nombre ,
-   "imagen": url     
-  } 
+  let _req ={
+    iidCategoria:this.lsCategoriadto.iidCategoria,
+    vImagen:url,
+    vNombre:this.lsCategoriadto.vNombreCategoria,
+    iEstadoEliminado:1,
+  }
 
-this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+this.httpCore.post(_req,'Categorias/CrearCategoria').subscribe(res=>{
 if(!res.isSuccess)
 {
   this.loadinga=false;
@@ -199,13 +194,14 @@ else if(this.lsCategoriadto.imagen != this.urlimagen){
   this.firebase.subirImagen("Categoria/",this.lsCategoriadto.nombre,file).then((url:any)=>
   {
      if(url){
-      this.categoria2={
-        "id":this.lsCategoriadto.id,
-        "nombre":this.lsCategoriadto.nombre ,
-       "imagen": url     
-      } 
+      let _req ={
+        iidCategoria:this.lsCategoriadto.iidCategoria,
+        vImagen:url || '',
+        vNombre:this.lsCategoriadto.vNombreCategoria,
+        iEstadoEliminado:1,
+      }
     
-  this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+  this.httpCore.post(_req,'Categorias/CrearCategoria').subscribe(res=>{
     if(!res.isSuccess)
     {
       this.loadinga=false;
@@ -266,15 +262,15 @@ if(this.formCategoriaCrear.valid){
   this.loadingc=true
   this.firebase.subirImagen("Categoria/",value.txtNombre,file)
   .then((url:any)=>{
-    this.categoria2={
-      "id":0,
-      "nombre": value.txtNombre,
-      "imagen":url
-      
+    let _req={
+      iidCategoria:0,//this.lsCategoriadto.iidCategoria,
+      vImagen:url || '',
+      vNombre:value.txtNombre,
+      iEstadoEliminado:1,
       }
       this.loadingc=false;
     
-this.httpCore.post(this.categoria2,'Categorias/CrearCategoria').subscribe(res=>{
+this.httpCore.post(_req,'Categorias/CrearCategoria').subscribe(res=>{
         if(res.success=false){  
           this.messageService.add({key: 'tst',severity: 'error',summary: 'Error Message',detail:res.message + ' ' + res.innerException});
           return  

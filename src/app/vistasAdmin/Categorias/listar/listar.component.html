@@ -83,9 +83,9 @@
             <tr  [ngClass]="{'row-accessories': data.estado === 0}">
               <td class="ml-3">{{data.id}}</td>
               <td class="ml-3">{{data.vCodigo}}</td>
-                <td style="min-width:15rem">{{data.nombre}}</td>     
+                <td style="min-width:15rem">{{data.vNombreCategoria}}</td>     
                 <td style="min-width:6rem;justify-content: center;">
-                  <img src="{{ data.imagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
+                  <img src="{{ data.vImagen }}" onerror="this.src='/assets/imgno.jpg'" [alt]="data.imagen" width="80" height="50" class="shadow-4" />
             
                 </td>
                 <td  pFrozenColumn  alignFrozen="right">
@@ -141,7 +141,7 @@
         <div class="p-fluid p-formgrid grid" style="margin-top:5px;">    
             
           <div class="col-12 md:col-12 imgmodal">         
-            <img [src]="lsCategoriadto.imagen"   class="imgmodal2" [alt]="lsCategoriadto.nombre" >
+            <img [src]="lsCategoriadto.vImagen"   class="imgmodal2" [alt]="lsCategoriadto.vNombreCategoria" >
           </div>  
 
          <input type="file" accept="{{acceptedFiles}}"
@@ -155,7 +155,7 @@
                <div class="col-4 md:col-12 ">
                       <label for="txtNombredg" class="divnombre">Nombre</label>
                       <input type="text" pInputText placeholder="Ingrese Nombre"  
-                      [(ngModel)]="lsCategoriadto.nombre" formControlName="txtNombredg"  
+                      [(ngModel)]="lsCategoriadto.vNombreCategoria" formControlName="txtNombredg"  
                        name="categoria2.nombre" required />
                        <small class="ng-dirty ng-invalid" 
                        *ngIf="submitted && !lsCategoriadto.nombre">Ingrese Nombre.</small>
@@ -187,10 +187,10 @@
                   <div class="col-4 md:col-12 ">
                       <label for="txtNombredg" class="divnombre">Nombre</label>
                       <input type="text" pInputText placeholder="Ingrese Nombre"  
-                      [(ngModel)]="categoria2.nombre" formControlName="txtNombre"  
+                      [(ngModel)]="categoria2.vNombreCategoria" formControlName="txtNombre"  
                        name="categoria2.nombre" required />
                        <small class="ng-dirty ng-invalid" 
-                       *ngIf="submitted && !categoria2.nombre">Ingrese Nombre.</small>
+                       *ngIf="submitted && !categoria2.vNombreCategoria">Ingrese Nombre.</small>
 
                   </div>
 
